@@ -1,6 +1,6 @@
 # How to contribute
 
-So you want to contribute to Signal? That's awesome. Here are a few
+So you want to contribute to our project? That's awesome. Here are a few
 things that can help you make it a reality.
 
 ## Code of conduct
