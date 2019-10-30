@@ -22,9 +22,9 @@ import {
 } from '../../types';
 import TrackingContext from '../TrackingContext';
 
-interface BaseProps extends ProviderProps {
+type BaseProps = ProviderProps & {
   type: 'view' | 'zone';
-}
+};
 
 const TrackingBase = ({ name, type, children }: BaseProps) => {
   const { dispatch, ...context } = React.useContext(TrackingContext);

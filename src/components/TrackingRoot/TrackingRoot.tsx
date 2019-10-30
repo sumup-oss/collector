@@ -18,9 +18,9 @@ import * as React from 'react';
 import { TrackingProviderProps as ProviderProps } from '../../types';
 import TrackingContext from '../TrackingContext';
 
-interface Props extends ProviderProps {
+type Props = ProviderProps & {
   onDispatch?: () => void;
-}
+};
 
 const TrackingRoot = ({ name, onDispatch, children }: Props) => {
   const [state] = React.useState({
