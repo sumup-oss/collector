@@ -25,13 +25,18 @@ import ACTIONS from '../../constants/actions';
 import COMPONENTS from '../../constants/components';
 
 const DispatchButton = () => {
-  const dispatch = useTracking({
-    action: ACTIONS.click,
-    component: COMPONENTS.button
-  });
+  const dispatch = useTracking();
 
   return (
-    <button data-testid="dispatch-btn" onClick={() => dispatch()}>
+    <button
+      data-testid="dispatch-btn"
+      onClick={() =>
+        dispatch({
+          action: ACTIONS.click,
+          component: COMPONENTS.button
+        })
+      }
+    >
       Dispatch button
     </button>
   );

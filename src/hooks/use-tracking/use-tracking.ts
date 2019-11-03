@@ -18,16 +18,16 @@ import * as React from 'react';
 import TrackingContext from '../../components/TrackingContext';
 import { Actions, Components } from '../../types';
 
-interface BaseHook {
+interface Dispatch {
   action: Actions;
   component?: Components;
   id?: string;
 }
 
-const useTracking = ({ action, component, id }: BaseHook) => {
+const useTracking = () => {
   const { dispatch, ...context } = React.useContext(TrackingContext);
 
-  return () =>
+  return ({ action, component, id }: Dispatch) =>
     dispatch &&
     dispatch({
       ...context,
