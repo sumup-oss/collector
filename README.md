@@ -13,9 +13,19 @@ Collector is a collection of React components that facilitates user-interaction 
 
 - [TLDR](#tldr)
 - [Motivation](#motivation)
-- [Getting started](#getting-started)
+- [Installing](#installing)
+  - [NPM](#npm)
+  - [yarn](#yarn)
 - [Usage](#usage)
-
+  - [Schema](#schema)
+  - [TrackingRoot](#trackingroot)
+  - [TrackingView](#trackingview)
+  - [TrackingZone](#trackingzone)
+  - [Dispatching events](#dispatching-events)
+- [Code of conduct (CoC)](#code-of-conduct-coc)
+  - [Maintainers](#maintainers)
+- [About SumUp](#about-sumup)
+  
 ## TLDR
 
 ```jsx
@@ -33,9 +43,9 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
   const dispatch = useTracking();
   let handler = onClick;
 
-  if (id) {
+  if (trackingId) {
     handler = e => {
-      dispatch({ id, component: COMPONENTS.button, action: ACTIONS.click });
+      dispatch({ id: trackingId, component: COMPONENTS.button, action: ACTIONS.click });
       onClick && onClick(e);
     };
   }
@@ -220,7 +230,7 @@ function App() {
 
 But again, over time this can tightly couple our component implementation with the analytics usage, and the more fields you need to overwrite, the harder it is to reason about the current state of the context, and that's where Collector can help you!
 
-Collector was built to easily track user-interactions with high granularity. Using an agnostic event schema you can serve different tracking purposes with it. Consider the same example using Collector:
+Collector was built to track user-interactions with high granularity. Using an agnostic event schema you can serve different tracking purposes with it. Consider the same example using Collector:
 
 ```jsx
 import React from 'react';
@@ -237,9 +247,9 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
   const dispatch = useTracking();
   let handler = onClick;
 
-  if (id) {
+  if (trackingId) {
     handler = e => {
-      dispatch({ id, component: COMPONENTS.button, action: ACTIONS.click });
+      dispatch({ id: trackingId, component: COMPONENTS.button, action: ACTIONS.click });
       onClick && onClick(e);
     };
   }
@@ -297,9 +307,13 @@ function App() {
 
 For more information about the event schema and component structure, please refer to the [Usage](#usage) section.
 
-## Getting started
+## Installing
 
+### NPM 
 `npm install @sumup/collector`
+
+### yarn
+`yarn add @sumup/collector`
 
 ## Usage
 
@@ -379,7 +393,7 @@ import { TrackingRoot } from '@sumup/collector';
 function App() {
  return (
    <TrackingRoot name="app" onDispatch={e => {
-     // You can easily define multipler handlers and transform the base event to support different schemas.
+     // You can define multipler handlers and transform the base event to support different schemas.
      window.dataLayer.push(e);
    }}>
      ...
@@ -470,9 +484,9 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 
 The dispatch function expects an object with the following properties:
 
-```js
+```ts
 {
- id: string; // optional
+ id?: string; // optional
  action: 'click' | 'hover' | 'focus' | 'blur' | 'enter-viewport'; // required
  component?: 'button' | 'link' // optional
 }
