@@ -18,18 +18,23 @@ import { render, fireEvent } from '@testing-library/react';
 
 import TrackingRoot from '../TrackingRoot';
 import TrackingZone from './TrackingZone';
+import TrackingView from '../TrackingView';
 
 import useTracking from '../../hooks/use-tracking';
 
 import ACTIONS from '../../constants/actions';
 import COMPONENTS from '../../constants/components';
 
-const DispatchButton = () => {
+interface DispatchButton {
+  testId?: string;
+}
+
+const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
   const dispatch = useTracking();
 
   return (
     <button
-      data-testid="dispatch-btn"
+      data-testid={testId}
       onClick={() =>
         dispatch({
           action: ACTIONS.click,
@@ -71,5 +76,58 @@ describe('Zone', () => {
     fireEvent.click(getByTestId(btn));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
+  });
+});
+
+describe('Nested Zones', () => {
+  it('Button located within nested zones A & B dispatching their immediate parent zone name', () => {
+    const dispatch = jest.fn();
+    const app = 'test-app-spec';
+    const view = 'test-view-spec';
+    const zoneA = 'test-zone-spec A';
+    const zoneB = 'test-zone-spec B';
+    const btnA = 'dispatch-btn-a';
+    const btnB = 'dispatch-btn-b';
+
+    const expectedForZoneB = {
+      app,
+      view,
+      zone: zoneB,
+      action: ACTIONS.click,
+      component: COMPONENTS.button,
+      id: undefined,
+      timestamp: expect.any(Number)
+    };
+
+    const expectedForZoneA = {
+      app,
+      view,
+      zone: zoneA,
+      action: ACTIONS.click,
+      component: COMPONENTS.button,
+      id: undefined,
+      timestamp: expect.any(Number)
+    };
+
+    const { getByTestId } = render(
+      <TrackingRoot name={app} onDispatch={dispatch}>
+        <TrackingView name={view}>
+          <TrackingZone name={zoneA}>
+            <DispatchButton testId={btnA} />
+            <TrackingZone name={zoneB}>
+              <DispatchButton testId={btnB} />
+            </TrackingZone>
+          </TrackingZone>
+        </TrackingView>
+      </TrackingRoot>
+    );
+
+    fireEvent.click(getByTestId(btnA));
+
+    expect(dispatch).toHaveBeenCalledWith(expectedForZoneA);
+
+    fireEvent.click(getByTestId(btnB));
+
+    expect(dispatch).toHaveBeenCalledWith(expectedForZoneB);
   });
 });

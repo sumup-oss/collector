@@ -17,6 +17,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "yarn test --ci --coverage",
+    "test:coverage": "jest --coverage",
     "lint": "eslint src/**/*.{ts,tsx}"
   },
   "devDependencies": {
