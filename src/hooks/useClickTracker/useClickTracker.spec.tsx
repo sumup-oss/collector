@@ -41,7 +41,7 @@ const DispatchButton = () => {
 };
 
 describe('useClickTracker', () => {
-  it('should provide a dispatch function that accepts an id and a component, and attaches the app/view/zone/timestamp to the dispatched event', () => {
+  it('should provide a dispatch function that accepts an id and a component, and attaches the app/view/zone/action/timestamp to the dispatched event', () => {
     const dispatch = jest.fn();
     const app = 'test-app-hook';
     const view = '';
