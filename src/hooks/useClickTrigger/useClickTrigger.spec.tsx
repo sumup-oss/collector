@@ -18,7 +18,7 @@ import { render, fireEvent } from '@testing-library/react';
 
 import TrackingRoot from '../../components/TrackingRoot';
 
-import useClickTrigger from '.';
+import useClickTrigger from './useClickTrigger';
 
 import COMPONENTS from '../../constants/components';
 import ACTIONS from '../../constants/actions';
