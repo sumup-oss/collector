@@ -13,29 +13,6 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
+import useClickTracker from './useClickTracker';
 
-import TrackingContext from '../../components/TrackingContext';
-import { Components } from '../../types';
-import ACTIONS from '../../constants/actions';
-
-interface Dispatch {
-  component?: Components;
-  id?: string;
-}
-
-const useClickTrigger = () => {
-  const { dispatch, ...context } = React.useContext(TrackingContext);
-
-  return ({ component, id }: Dispatch) =>
-    dispatch &&
-    dispatch({
-      ...context,
-      action: ACTIONS.click,
-      component,
-      id,
-      timestamp: Date.now()
-    });
-};
-
-export default useClickTrigger;
+export default useClickTracker;
