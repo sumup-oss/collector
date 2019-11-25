@@ -17,7 +17,7 @@ import TrackingRoot from './components/TrackingRoot';
 import TrackingView from './components/TrackingView';
 import TrackingZone from './components/TrackingZone';
 
-import useTracking from './hooks/use-tracking';
+import useClickTrigger from './hooks/useClickTrigger';
 
 import ACTIONS from './constants/actions';
 import COMPONENTS from './constants/components';
@@ -26,7 +26,7 @@ export {
   TrackingRoot,
   TrackingView,
   TrackingZone,
-  useTracking,
+  useClickTrigger,
   ACTIONS,
   COMPONENTS
 };

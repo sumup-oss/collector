@@ -20,7 +20,7 @@ import TrackingRoot from '../TrackingRoot';
 import TrackingZone from './TrackingZone';
 import TrackingView from '../TrackingView';
 
-import useTracking from '../../hooks/use-tracking';
+import useClickTrigger from '../../hooks/useClickTrigger';
 
 import ACTIONS from '../../constants/actions';
 import COMPONENTS from '../../constants/components';
@@ -30,14 +30,13 @@ interface DispatchButton {
 }
 
 const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
-  const dispatch = useTracking();
+  const dispatch = useClickTrigger();
 
   return (
     <button
       data-testid={testId}
       onClick={() =>
         dispatch({
-          action: ACTIONS.click,
           component: COMPONENTS.button
         })
       }

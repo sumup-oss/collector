@@ -18,20 +18,19 @@ import { render, fireEvent } from '@testing-library/react';
 
 import TrackingRoot from '../../components/TrackingRoot';
 
-import useTracking from '../../hooks/use-tracking';
+import useClickTrigger from '.';
 
-import ACTIONS from '../../constants/actions';
 import COMPONENTS from '../../constants/components';
+import ACTIONS from '../../constants/actions';
 
 const DispatchButton = () => {
-  const dispatch = useTracking();
+  const dispatch = useClickTrigger();
 
   return (
     <button
       data-testid="dispatch-btn"
       onClick={() =>
         dispatch({
-          action: ACTIONS.click,
           component: COMPONENTS.button
         })
       }
@@ -41,7 +40,7 @@ const DispatchButton = () => {
   );
 };
 
-describe('useTracking', () => {
+describe('useClickTrigger', () => {
   it('should provide a dispatch function that accepts an action, id and a component, and attaches the app/view/zone/timestamp to the dispatched event', () => {
     const dispatch = jest.fn();
     const app = 'test-app-hook';
