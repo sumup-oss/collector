@@ -18,20 +18,19 @@ import { render, fireEvent } from '@testing-library/react';
 
 import TrackingRoot from '../TrackingRoot';
 
-import useTracking from '../../hooks/use-tracking';
+import useClickTracker from '../../hooks/useClickTracker';
 
 import ACTIONS from '../../constants/actions';
 import COMPONENTS from '../../constants/components';
 
 const DispatchButton = () => {
-  const dispatch = useTracking();
+  const dispatch = useClickTracker();
 
   return (
     <button
       data-testid="dispatch-btn"
       onClick={() =>
         dispatch({
-          action: ACTIONS.click,
           component: COMPONENTS.button
         })
       }

@@ -34,13 +34,13 @@ import {
   TrackingRoot,
   TrackingView,
   TrackingZone,
-  useTracking,
+  useClickTracker,
   ACTIONS,
   COMPONENTS
 } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useTracking();
+  const dispatch = useClickTracker();
   let handler = onClick;
 
   if (trackingId) {
@@ -238,13 +238,13 @@ import {
   TrackingRoot,
   TrackingView,
   TrackingZone,
-  useTracking,
+  useClickTracker,
   ACTIONS,
   COMPONENTS
 } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useTracking();
+  const dispatch = useClickTracker();
   let handler = onClick;
 
   if (trackingId) {
@@ -440,19 +440,19 @@ function App() {
 
 ### Dispatching events
 
-In order to dispatch events, you can use the `useTracking` hook:
+In order to dispatch events, you can use the `useClickTracker` hook:
 
 ```jsx
 import React from 'react';
-import { useTracking } from '@sumup/collector';
+import { useClickTracker } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useTracking({ id, action: 'click', component: 'button' });
+  const dispatch = useClickTracker();
   let handler = onClick;
 
   if (id) {
     handler = e => {
-      dispatch();
+      dispatch({ id, component: 'button' });
       onClick && onClick(e);
     };
   }
@@ -461,19 +461,19 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 }
 ```
 
-To ensure consistency, Collector also provides out of the box `actions` and `components` for you:
+To ensure consistency, Collector also provides out of the box `components` for you:
 
 ```jsx
 import React from 'react';
-import { useTracking, ACTIONS, COMPONENTS } from '@sumup/collector';
+import { useClickTracker, COMPONENTS } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useTracking();
+  const dispatch = useClickTracker();
   let handler = onClick;
 
   if (id) {
     handler = e => {
-      dispatch({ id, component: COMPONENTS.button, action: ACTIONS.click });
+      dispatch({ id, component: COMPONENTS.button });
       onClick && onClick(e);
     };
   }
@@ -487,7 +487,6 @@ The dispatch function expects an object with the following properties:
 ```ts
 {
  id?: string; // optional
- action: 'click' | 'hover' | 'focus' | 'blur' | 'enter-viewport'; // required
  component?: 'button' | 'link' // optional
 }
 ```

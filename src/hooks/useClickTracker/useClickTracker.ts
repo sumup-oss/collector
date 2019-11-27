@@ -16,26 +16,26 @@
 import * as React from 'react';
 
 import TrackingContext from '../../components/TrackingContext';
-import { Actions, Components } from '../../types';
+import { Components } from '../../types';
+import ACTIONS from '../../constants/actions';
 
 interface Dispatch {
-  action: Actions;
   component?: Components;
   id?: string;
 }
 
-const useTracking = () => {
+const useClickTracker = () => {
   const { dispatch, ...context } = React.useContext(TrackingContext);
 
-  return ({ action, component, id }: Dispatch) =>
+  return ({ component, id }: Dispatch) =>
     dispatch &&
     dispatch({
       ...context,
-      action,
+      action: ACTIONS.click,
       component,
       id,
       timestamp: Date.now()
     });
 };
 
-export default useTracking;
+export default useClickTracker;

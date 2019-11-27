@@ -13,6 +13,6 @@
  * limitations under the License.
  */
 
-import useTracking from './use-tracking';
+import useClickTracker from './useClickTracker';
 
-export default useTracking;
+export default useClickTracker;
