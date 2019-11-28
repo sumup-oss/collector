@@ -441,6 +441,11 @@ function App() {
 Here are a list of supported events you can dispatch:
 
 - [click](#click)
+- view (to be implemented)
+- load (to be implemented)
+- pageView (to be implemented)
+- submit      (to be implemented)
+- browserBack (to be implemented)
 
 ## Click
 
