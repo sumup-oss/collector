@@ -17,9 +17,9 @@ const enum ACTIONS {
   click = 'click',
   view = 'view',
   load = 'load',
-  pageView = 'pageView',
+  pageView = 'page-view',
   submit = 'submit',
-  browserBack = 'browserBack'
+  browserBack = 'browser-back'
 }
 
 export default ACTIONS;

@@ -340,7 +340,7 @@ interface Event {
   zone?: string; // The current "feature"/"organism", such as a login form. Can be overwritten
   component?: 'button' | 'link'; // Which primitive dispatched the event
   id?: string;
-  action: 'click' | 'view' | 'load' | 'pageView' | 'submit' | 'browserBack'; // This action is internally dispatched based on the kind of event you dispatched.
+  action: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched.
   data?: {
     [key: string]: any;
   };
