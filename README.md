@@ -340,7 +340,7 @@ interface Event {
   zone?: string; // The current "feature"/"organism", such as a login form. Can be overwritten
   component?: 'button' | 'link'; // Which primitive dispatched the event
   id?: string;
-  action: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back';
+  action: 'click' | 'view' | 'load' | 'pageView' | 'submit' | 'browserBack'; // This action is internally dispatched based on the kind of event you dispatched.
   data?: {
     [key: string]: any;
   };
@@ -438,7 +438,13 @@ function App() {
 
 ### Dispatching events
 
-In order to dispatch events, you can use the `useClickTracker` hook:
+In order to dispatch events, you can use any of the following hooks:
+
+- [useClickTracker](#useClickTracker)
+
+## useClickTracker
+
+This hook lets you dispatch any kind of click event.
 
 ```jsx
 import React from 'react';
