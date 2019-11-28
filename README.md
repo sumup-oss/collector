@@ -35,7 +35,6 @@ import {
   TrackingView,
   TrackingZone,
   useClickTracker,
-  ACTIONS,
   COMPONENTS
 } from '@sumup/collector';
 
@@ -45,7 +44,7 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 
   if (trackingId) {
     handler = e => {
-      dispatch({ id: trackingId, component: COMPONENTS.button, action: ACTIONS.click });
+      dispatch({ id: trackingId, component: COMPONENTS.button });
       onClick && onClick(e);
     };
   }
@@ -89,7 +88,7 @@ function Button({ onClick, label, category, value, dispatch, children }) {
 
   if (dispatch) {
     handler = e => {
-      dispatch({ label, category, value, action: 'click' });
+      dispatch({ label, category, value });
       onClick && onClick(e);
     };
   }
@@ -239,7 +238,6 @@ import {
   TrackingView,
   TrackingZone,
   useClickTracker,
-  ACTIONS,
   COMPONENTS
 } from '@sumup/collector';
 
@@ -249,7 +247,7 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 
   if (trackingId) {
     handler = e => {
-      dispatch({ id: trackingId, component: COMPONENTS.button, action: ACTIONS.click });
+      dispatch({ id: trackingId, component: COMPONENTS.button });
       onClick && onClick(e);
     };
   }
@@ -342,7 +340,7 @@ interface Event {
   zone?: string; // The current "feature"/"organism", such as a login form. Can be overwritten
   component?: 'button' | 'link'; // Which primitive dispatched the event
   id?: string;
-  action: 'click' | 'hover' | 'focus' | 'blur' | 'enter-viewport';
+  action: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched.
   data?: {
     [key: string]: any;
   };
@@ -440,7 +438,13 @@ function App() {
 
 ### Dispatching events
 
-In order to dispatch events, you can use the `useClickTracker` hook:
+Here are a list of supported events you can dispatch:
+
+- [click](#click)
+
+## Click
+
+The hook called `useClickTracker` lets you dispatch any kind of click event.
 
 ```jsx
 import React from 'react';

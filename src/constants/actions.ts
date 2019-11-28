@@ -13,16 +13,13 @@
  * limitations under the License.
  */
 
-import { Actions } from '../types';
-
-type ActionsMap = { [action in Actions]: action };
-
-const ACTIONS: ActionsMap = {
-  click: 'click',
-  hover: 'hover',
-  focus: 'focus',
-  blur: 'blur',
-  'enter-viewport': 'enter-viewport'
-};
+const enum ACTIONS {
+  click = 'click',
+  view = 'view',
+  load = 'load',
+  pageView = 'page-view',
+  submit = 'submit',
+  browserBack = 'browser-back'
+}
 
 export default ACTIONS;

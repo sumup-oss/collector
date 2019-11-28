@@ -38,5 +38,4 @@ export interface TrackingProviderProps {
   children: React.ReactNode;
 }
 
-export type Actions = 'click' | 'hover' | 'focus' | 'blur' | 'enter-viewport';
 export type Components = 'button' | 'link';
