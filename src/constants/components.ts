@@ -13,13 +13,10 @@
  * limitations under the License.
  */
 
-import { Components } from '../types';
-
-type ComponentsMap = { [component in Components]: component };
-
-const COMPONENTS: ComponentsMap = {
-  button: 'button',
-  link: 'link'
-};
+const enum COMPONENTS {
+  aggregator = 'aggregator',
+  button = 'button',
+  link = 'link'
+}
 
 export default COMPONENTS;
