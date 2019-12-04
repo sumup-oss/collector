@@ -50,7 +50,6 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "tti-polyfill": "^0.2.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0",

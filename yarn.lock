@@ -5204,11 +5204,6 @@ tsutils@^3.7.0:
   dependencies:
     tslib "^1.8.1"
 
-tti-polyfill@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/tti-polyfill/-/tti-polyfill-0.2.2.tgz#f7bbf71b13afa9edf60c8bb0d0c05f134e1513b9"
-  integrity sha512-URIoJxvsHThbQEJij29hIBUDHx9UNoBBCQVjy7L8PnzkqY8N6lsAI6h8JrT1Wt2lA0avus/DkuiJxd9qpfCpqw==
-
 tunnel-agent@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/tunnel-agent/-/tunnel-agent-0.6.0.tgz#27a5dea06b36b04a0a9966774b290868f0fc40fd"

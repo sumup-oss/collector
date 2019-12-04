@@ -13,10 +13,7 @@
  * limitations under the License.
  */
 
-import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
-import external from 'rollup-plugin-peer-deps-external';
-
 import pkg from './package.json';
 
 export default {
@@ -24,20 +21,21 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs',
-      exports: 'named'
+      format: 'cjs'
     },
     {
       file: pkg.module,
-      format: 'es',
-      exports: 'named'
+      format: 'umd',
+      name: pkg.name
     }
   ],
+  external: [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {})
+  ],
   plugins: [
-    external(),
     typescript({
       typescript: require('typescript')
-    }),
-    terser()
+    })
   ]
 };
