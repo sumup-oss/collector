@@ -14,15 +14,15 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitForElement } from '@testing-library/react';
 
-import TrackingRoot from '../TrackingRoot';
-import TrackingView from './TrackingView';
+import TrackingRoot from '../../TrackingRoot';
+import TrackingView from '../TrackingView';
 
-import useClickTracker from '../../hooks/useClickTracker';
+import useClickTracker from '../../../hooks/useClickTracker';
 
-import ACTIONS from '../../constants/actions';
-import COMPONENTS from '../../constants/components';
+import ACTIONS from '../../../constants/actions';
+import COMPONENTS from '../../../constants/components';
 
 const DispatchButton = () => {
   const dispatch = useClickTracker();
@@ -69,6 +69,38 @@ describe('View', () => {
 
     fireEvent.click(getByTestId(btn));
 
+    expect(dispatch).toHaveBeenCalledWith(expected);
+  });
+
+  it('should attach the view property when loaded using lazy', async () => {
+    const dispatch = jest.fn();
+    const app = '';
+    const view = 'test-view-spec';
+    const zone = '';
+    const btn = 'dispatch-btn';
+
+    const expected = {
+      app,
+      view,
+      zone,
+      action: ACTIONS.click,
+      component: COMPONENTS.button,
+      id: undefined,
+      timestamp: expect.any(Number)
+    };
+
+    const TrackingLazy = React.lazy(() => import('./LazyTrackingView'));
+    const { getByTestId } = render(
+      <TrackingRoot name={app} onDispatch={dispatch}>
+        <React.Suspense fallback>
+          <TrackingLazy name={view}>
+            <DispatchButton />
+          </TrackingLazy>
+        </React.Suspense>
+      </TrackingRoot>
+    );
+    const element = await waitForElement(() => getByTestId(btn));
+    fireEvent.click(element);
     expect(dispatch).toHaveBeenCalledWith(expected);
   });
 });

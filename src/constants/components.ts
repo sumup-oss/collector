@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-const enum COMPONENTS {
+enum COMPONENTS {
   aggregator = 'aggregator',
   button = 'button',
   link = 'link'
