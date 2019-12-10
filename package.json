@@ -1,7 +1,7 @@
 {
   "name": "@sumup/collector",
   "sideEffects": false,
-  "version": "0.0.4-0",
+  "version": "0.0.4-1",
   "main": "build/index.js",
   "module": "build/index.es.js",
   "jsnext:main": "build/index.es.js",
