@@ -17,7 +17,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "yarn test --ci --coverage",
-    "lint": "eslint src/**/*.{ts,tsx}"
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
