@@ -31,6 +31,7 @@ export interface TrackingContextKeys {
   view: string;
   zone: string;
   dispatch?: (e: Event) => void;
+  setView?: (view: string) => void;
 }
 
 export interface TrackingProviderProps {

@@ -15,11 +15,22 @@
 
 import * as React from 'react';
 
-import { TrackingProviderProps as ProviderProps } from '../../types';
-import TrackingBase from '../TrackingBase';
+import {
+  TrackingProviderProps as ProviderProps,
+  TrackingContextKeys as ContextKeys,
+  Event
+} from '../../types';
+import TrackingContext from '../TrackingContext';
 
-const TrackingZone = (props: ProviderProps) => (
-  <TrackingBase {...props} type="zone" />
-);
+const TrackingZone = ({ name, children }: ProviderProps) => {
+  const context = React.useContext(TrackingContext);
+  const value = { ...context, zone: name };
+
+  return (
+    <TrackingContext.Provider value={value}>
+      {children}
+    </TrackingContext.Provider>
+  );
+};
 
 export default TrackingZone;

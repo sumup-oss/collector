@@ -16,10 +16,16 @@
 import * as React from 'react';
 
 import { TrackingProviderProps as ProviderProps } from '../../types';
-import TrackingBase from '../TrackingBase';
+import TrackingContext from '../TrackingContext';
 
-const TrackingView = (props: ProviderProps) => (
-  <TrackingBase {...props} type="view" />
-);
+const TrackingView = ({ name, children }: ProviderProps) => {
+  const { setView } = React.useContext(TrackingContext);
+
+  React.useEffect(() => {
+    setView && setView(name);
+  }, [name]);
+
+  return <>{children}</>;
+};
 
 export default TrackingView;

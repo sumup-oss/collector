@@ -25,12 +25,14 @@ interface Dispatch {
 }
 
 const useClickTracker = () => {
-  const { dispatch, ...context } = React.useContext(TrackingContext);
+  const { dispatch, app, view, zone } = React.useContext(TrackingContext);
 
   return ({ component, id }: Dispatch) =>
     dispatch &&
     dispatch({
-      ...context,
+      app,
+      view,
+      zone,
       action: ACTIONS.click,
       component,
       id,
