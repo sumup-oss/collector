@@ -25,7 +25,7 @@ Collector is a collection of React components that facilitates user-interaction 
 - [Code of conduct (CoC)](#code-of-conduct-coc)
   - [Maintainers](#maintainers)
 - [About SumUp](#about-sumup)
-  
+
 ## TLDR
 
 ```jsx
@@ -60,12 +60,11 @@ function App() {
         console.log(event);
       }}
     >
-      <TrackingView name="page-a">
+      <TrackingView name="page">
         <TrackingZone name="zone-a">
           <Button tracking-id="show-content-a">Click me</Button>
         </TrackingZone>
-      </TrackingView>
-      <TrackingView name="page-b">
+
         <TrackingZone name="zone-b">
           <Button tracking-id="show-content-b">Click me</Button>
         </TrackingZone>
@@ -307,10 +306,12 @@ For more information about the event schema and component structure, please refe
 
 ## Installing
 
-### NPM 
+### NPM
+
 `npm install @sumup/collector`
 
 ### yarn
+
 `yarn add @sumup/collector`
 
 ## Usage
@@ -362,7 +363,7 @@ The directives (`Root = app`, `View = view` and `Zone = zone`) are responsible f
 ```
 
 Would yield the following structure: `{ app: 'my-app', view: 'account', zone: 'change-account-form' }`.
-You can also overwrite `View` and `Zone` for complex trees:
+You can also overwrite `Zone` for complex trees:
 
 ```jsx
  <TrackingRoot name="my-app" onDispatch={console.log}>
@@ -402,7 +403,7 @@ function App() {
 
 ### TrackingView
 
-The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page".
+The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page". Any `TrackingView` component rendered will override the `view` value.
 
 ```jsx
 import React from 'react';
@@ -444,7 +445,7 @@ Here are a list of supported events you can dispatch:
 - view (to be implemented)
 - load (to be implemented)
 - pageView (to be implemented)
-- submit      (to be implemented)
+- submit (to be implemented)
 - browserBack (to be implemented)
 
 ## Click

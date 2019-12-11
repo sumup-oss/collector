@@ -50,7 +50,7 @@ describe('Zone', () => {
   it('should attach the zone property when dispatching an event', () => {
     const dispatch = jest.fn();
     const app = '';
-    const view = '';
+    const view = 'test';
     const zone = 'test-zone-spec';
     const btn = 'dispatch-btn';
 
@@ -66,9 +66,11 @@ describe('Zone', () => {
 
     const { getByTestId } = render(
       <TrackingRoot name={app} onDispatch={dispatch}>
-        <TrackingZone name={zone}>
-          <DispatchButton />
-        </TrackingZone>
+        <TrackingView name="test">
+          <TrackingZone name={zone}>
+            <DispatchButton />
+          </TrackingZone>
+        </TrackingView>
       </TrackingRoot>
     );
 
