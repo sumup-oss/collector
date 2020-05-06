@@ -15,11 +15,7 @@
 
 import * as React from 'react';
 
-import {
-  TrackingProviderProps as ProviderProps,
-  TrackingContextKeys as ContextKeys,
-  Event
-} from '../../types';
+import { TrackingProviderProps as ProviderProps } from '../../types';
 import TrackingContext from '../TrackingContext';
 
 const TrackingZone = ({ name, children }: ProviderProps) => {
