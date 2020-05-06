@@ -19,12 +19,4 @@ import TrackingZone from './components/TrackingZone';
 
 import useClickTracker from './hooks/useClickTracker';
 
-import COMPONENTS from './constants/components';
-
-export {
-  TrackingRoot,
-  TrackingView,
-  TrackingZone,
-  useClickTracker,
-  COMPONENTS
-};
+export { TrackingRoot, TrackingView, TrackingZone, useClickTracker };

@@ -16,11 +16,10 @@
 import * as React from 'react';
 
 import TrackingContext from '../../components/TrackingContext';
-import { Components } from '../../types';
 import ACTIONS from '../../constants/actions';
 
 interface Dispatch {
-  component?: Components;
+  component?: string;
   id?: string;
 }
 
