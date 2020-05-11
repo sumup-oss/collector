@@ -25,6 +25,8 @@ const TrackingView = ({ name, children }: ProviderProps) => {
     setView && setView(name);
   }, [name]);
 
+  // Wrapping with fragment because of a known issue in typescript
+  // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/18051
   return <>{children}</>;
 };
 

@@ -22,7 +22,6 @@ import TrackingView from './TrackingView';
 import useClickTracker from '../../hooks/useClickTracker';
 
 import ACTIONS from '../../constants/actions';
-import COMPONENTS from '../../constants/components';
 
 const DispatchButton = () => {
   const dispatch = useClickTracker();
@@ -32,7 +31,7 @@ const DispatchButton = () => {
       data-testid="dispatch-btn"
       onClick={() =>
         dispatch({
-          component: COMPONENTS.button
+          component: 'button'
         })
       }
     >
@@ -48,13 +47,14 @@ describe('View', () => {
     const view = 'test-view-spec';
     const zone = '';
     const btn = 'dispatch-btn';
+    const component = 'button';
 
     const expected = {
       app,
       view,
       zone,
       action: ACTIONS.click,
-      component: COMPONENTS.button,
+      component,
       id: undefined,
       timestamp: expect.any(Number)
     };

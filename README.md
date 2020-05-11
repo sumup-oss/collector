@@ -34,8 +34,7 @@ import {
   TrackingRoot,
   TrackingView,
   TrackingZone,
-  useClickTracker,
-  COMPONENTS
+  useClickTracker
 } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-id': trackingId, children }) {
@@ -44,7 +43,7 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 
   if (trackingId) {
     handler = e => {
-      dispatch({ id: trackingId, component: COMPONENTS.button });
+      dispatch({ id: trackingId, component: 'button' });
       onClick && onClick(e);
     };
   }
@@ -236,8 +235,7 @@ import {
   TrackingRoot,
   TrackingView,
   TrackingZone,
-  useClickTracker,
-  COMPONENTS
+  useClickTracker
 } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-id': trackingId, children }) {
@@ -246,7 +244,7 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 
   if (trackingId) {
     handler = e => {
-      dispatch({ id: trackingId, component: COMPONENTS.button });
+      dispatch({ id: trackingId, component: 'button' });
       onClick && onClick(e);
     };
   }
@@ -475,7 +473,7 @@ To ensure consistency, Collector also provides out of the box `components` for y
 
 ```jsx
 import React from 'react';
-import { useClickTracker, COMPONENTS } from '@sumup/collector';
+import { useClickTracker } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-id': trackingId, children }) {
   const dispatch = useClickTracker();
@@ -483,7 +481,7 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 
   if (id) {
     handler = e => {
-      dispatch({ id, component: COMPONENTS.button });
+      dispatch({ id, component: 'button' });
       onClick && onClick(e);
     };
   }

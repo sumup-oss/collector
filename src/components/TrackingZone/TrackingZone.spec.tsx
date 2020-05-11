@@ -23,7 +23,6 @@ import TrackingView from '../TrackingView';
 import useClickTracker from '../../hooks/useClickTracker';
 
 import ACTIONS from '../../constants/actions';
-import COMPONENTS from '../../constants/components';
 
 interface DispatchButton {
   testId?: string;
@@ -37,7 +36,7 @@ const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
       data-testid={testId}
       onClick={() =>
         dispatch({
-          component: COMPONENTS.button
+          component: 'button'
         })
       }
     >
@@ -53,13 +52,14 @@ describe('Zone', () => {
     const view = 'test';
     const zone = 'test-zone-spec';
     const btn = 'dispatch-btn';
+    const component = 'button';
 
     const expected = {
       app,
       view,
       zone,
       action: ACTIONS.click,
-      component: COMPONENTS.button,
+      component,
       id: undefined,
       timestamp: expect.any(Number)
     };
@@ -85,6 +85,7 @@ describe('Nested Zones', () => {
     const dispatch = jest.fn();
     const app = 'test-app-spec';
     const view = 'test-view-spec';
+    const component = 'button';
     const zoneA = 'test-zone-spec A';
     const zoneB = 'test-zone-spec B';
     const btnA = 'dispatch-btn-a';
@@ -95,7 +96,7 @@ describe('Nested Zones', () => {
       view,
       zone: zoneB,
       action: ACTIONS.click,
-      component: COMPONENTS.button,
+      component,
       id: undefined,
       timestamp: expect.any(Number)
     };
@@ -105,7 +106,7 @@ describe('Nested Zones', () => {
       view,
       zone: zoneA,
       action: ACTIONS.click,
-      component: COMPONENTS.button,
+      component,
       id: undefined,
       timestamp: expect.any(Number)
     };

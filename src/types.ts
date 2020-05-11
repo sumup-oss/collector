@@ -38,5 +38,3 @@ export interface TrackingProviderProps {
   name: string;
   children: React.ReactNode;
 }
-
-export type Components = 'button' | 'link';
