@@ -13,9 +13,26 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from '../useBaseTrigger';
-import { EVENTS } from '../../types';
+import * as React from 'react';
 
-const useClickTrigger = () => useBaseTrigger(EVENTS.click);
+import TrackingContext from '../../components/TrackingContext';
+import { EVENTS, Dispatch } from '../../types';
 
-export default useClickTrigger;
+const useBaseTrigger = (event: EVENTS) => {
+  const { dispatch, app, view, zone } = React.useContext(TrackingContext);
+
+  return ({ component, label, data }: Dispatch) =>
+    dispatch &&
+    dispatch({
+      app,
+      view,
+      zone,
+      event,
+      component,
+      label,
+      timestamp: Date.now(),
+      data
+    });
+};
+
+export default useBaseTrigger;

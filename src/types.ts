@@ -35,6 +35,12 @@ export interface Payload {
   };
 }
 
+export interface Dispatch {
+  component?: string;
+  label?: string;
+  data?: object;
+}
+
 export interface TrackingContextKeys {
   app?: string;
   view?: string;

@@ -18,10 +18,10 @@ import { render, fireEvent } from '@testing-library/react';
 
 import { EVENTS } from '../../types';
 import TrackingRoot from '../../components/TrackingRoot';
-import useClickTrigger from './useClickTrigger';
+import useBaseTrigger from './useBaseTrigger';
 
 const DispatchButton = () => {
-  const dispatch = useClickTrigger();
+  const dispatch = useBaseTrigger(EVENTS.click);
 
   return (
     <button
@@ -37,8 +37,8 @@ const DispatchButton = () => {
   );
 };
 
-describe('useClickTrigger', () => {
-  it('should provide a dispatch function that contains the click event', () => {
+describe('useBaseTrigger', () => {
+  it('should provide a dispatch function that accepts a label and a component, and attaches the app/view/zone/event/timestamp to the dispatched event', () => {
     const dispatch = jest.fn();
     const app = 'test-app-hook';
     const btn = 'dispatch-btn';
