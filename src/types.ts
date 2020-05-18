@@ -13,13 +13,22 @@
  * limitations under the License.
  */
 
-export interface Event {
-  app: string;
-  view: string;
+export enum EVENTS {
+  click = 'click',
+  view = 'view',
+  load = 'load',
+  pageView = 'page-view',
+  submit = 'submit',
+  browserBack = 'browser-back'
+}
+
+export interface Payload {
+  app: string | undefined;
+  view: string | undefined;
   zone?: string;
   component?: string;
-  id?: string;
-  action: string;
+  label?: string;
+  event: EVENTS;
   timestamp: number;
   data?: {
     [key: string]: any;
@@ -27,10 +36,10 @@ export interface Event {
 }
 
 export interface TrackingContextKeys {
-  app: string;
-  view: string;
-  zone: string;
-  dispatch?: (e: Event) => void;
+  app?: string;
+  view?: string;
+  zone?: string;
+  dispatch?: (e: Payload) => void;
   setView?: (view: string) => void;
 }
 

@@ -13,13 +13,6 @@
  * limitations under the License.
  */
 
-const enum ACTIONS {
-  click = 'click',
-  view = 'view',
-  load = 'load',
-  pageView = 'page-view',
-  submit = 'submit',
-  browserBack = 'browser-back'
-}
+import useClickTrigger from './useClickTrigger';
 
-export default ACTIONS;
+export default useClickTrigger;

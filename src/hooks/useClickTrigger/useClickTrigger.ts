@@ -16,27 +16,27 @@
 import * as React from 'react';
 
 import TrackingContext from '../../components/TrackingContext';
-import ACTIONS from '../../constants/actions';
+import { EVENTS } from '../../types';
 
 interface Dispatch {
   component?: string;
-  id?: string;
+  label?: string;
 }
 
-const useClickTracker = () => {
+const useClickTrigger = () => {
   const { dispatch, app, view, zone } = React.useContext(TrackingContext);
 
-  return ({ component, id }: Dispatch) =>
+  return ({ component, label }: Dispatch) =>
     dispatch &&
     dispatch({
       app,
       view,
       zone,
-      action: ACTIONS.click,
+      event: EVENTS.click,
       component,
-      id,
+      label,
       timestamp: Date.now()
     });
 };
 
-export default useClickTracker;
+export default useClickTrigger;

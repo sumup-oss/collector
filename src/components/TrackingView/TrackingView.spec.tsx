@@ -16,15 +16,14 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
+import { EVENTS } from '../../types';
 import TrackingRoot from '../TrackingRoot';
 import TrackingView from './TrackingView';
 
-import useClickTracker from '../../hooks/useClickTracker';
-
-import ACTIONS from '../../constants/actions';
+import useClickTrigger from '../../hooks/useClickTrigger';
 
 const DispatchButton = () => {
-  const dispatch = useClickTracker();
+  const dispatch = useClickTrigger();
 
   return (
     <button
@@ -45,17 +44,16 @@ describe('View', () => {
     const dispatch = jest.fn();
     const app = '';
     const view = 'test-view-spec';
-    const zone = '';
     const btn = 'dispatch-btn';
     const component = 'button';
 
     const expected = {
       app,
       view,
-      zone,
-      action: ACTIONS.click,
+      zone: undefined,
+      event: EVENTS.click,
       component,
-      id: undefined,
+      label: undefined,
       timestamp: expect.any(Number)
     };
 

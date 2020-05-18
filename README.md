@@ -34,16 +34,16 @@ import {
   TrackingRoot,
   TrackingView,
   TrackingZone,
-  useClickTracker
+  useClickTrigger
 } from '@sumup/collector';
 
-function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useClickTracker();
+function Button({ onClick, 'tracking-label': trackingId, children }) {
+  const dispatch = useClickTrigger();
   let handler = onClick;
 
   if (trackingId) {
     handler = e => {
-      dispatch({ id: trackingId, component: 'button' });
+      dispatch({ label: trackingId, component: 'button' });
       onClick && onClick(e);
     };
   }
@@ -61,11 +61,11 @@ function App() {
     >
       <TrackingView name="page">
         <TrackingZone name="zone-a">
-          <Button tracking-id="show-content-a">Click me</Button>
+          <Button tracking-label="show-content-a">Click me</Button>
         </TrackingZone>
 
         <TrackingZone name="zone-b">
-          <Button tracking-id="show-content-b">Click me</Button>
+          <Button tracking-label="show-content-b">Click me</Button>
         </TrackingZone>
       </TrackingView>
     </TrackingRoot>
@@ -235,16 +235,16 @@ import {
   TrackingRoot,
   TrackingView,
   TrackingZone,
-  useClickTracker
+  useClickTrigger
 } from '@sumup/collector';
 
-function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useClickTracker();
+function Button({ onClick, 'tracking-label': trackingId, children }) {
+  const dispatch = useClickTrigger();
   let handler = onClick;
 
   if (trackingId) {
     handler = e => {
-      dispatch({ id: trackingId, component: 'button' });
+      dispatch({ label: trackingId, component: 'button' });
       onClick && onClick(e);
     };
   }
@@ -254,7 +254,7 @@ function Button({ onClick, 'tracking-id': trackingId, children }) {
 
 function AccountBalance() {
   return (
-    <Button type="submit" tracking-id="show-balance">
+    <Button type="submit" tracking-label="show-balance">
       Click me
     </Button>
   );
@@ -278,10 +278,10 @@ function Balance() {
   );
 }
 
-function toAnalyticsEvent({ view, zone, id, action }) {
+function toAnalyticsEvent({ view, zone, label, action }) {
   return {
     category: `${view}-${zone}`,
-    label: id,
+    label: label,
     action
   };
 }
@@ -338,8 +338,8 @@ interface Event {
   view: string; // The current "view". Can be overwritten
   zone?: string; // The current "feature"/"organism", such as a login form. Can be overwritten
   component?: 'button' | 'link'; // Which primitive dispatched the event
-  id?: string;
-  action: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched.
+  label?: string;
+  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched.
   data?: {
     [key: string]: any;
   };
@@ -448,19 +448,19 @@ Here are a list of supported events you can dispatch:
 
 ## Click
 
-The hook called `useClickTracker` lets you dispatch any kind of click event.
+The hook called `useClickTrigger` lets you dispatch any kind of click event.
 
 ```jsx
 import React from 'react';
-import { useClickTracker } from '@sumup/collector';
+import { useClickTrigger } from '@sumup/collector';
 
-function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useClickTracker();
+function Button({ onClick, 'tracking-label': trackingId, children }) {
+  const dispatch = useClickTrigger();
   let handler = onClick;
 
-  if (id) {
+  if (label) {
     handler = e => {
-      dispatch({ id, component: 'button' });
+      dispatch({ label, component: 'button' });
       onClick && onClick(e);
     };
   }
@@ -473,15 +473,15 @@ To ensure consistency, Collector also provides out of the box `components` for y
 
 ```jsx
 import React from 'react';
-import { useClickTracker } from '@sumup/collector';
+import { useClickTrigger } from '@sumup/collector';
 
-function Button({ onClick, 'tracking-id': trackingId, children }) {
-  const dispatch = useClickTracker();
+function Button({ onClick, 'tracking-label': trackingId, children }) {
+  const dispatch = useClickTrigger();
   let handler = onClick;
 
-  if (id) {
+  if (label) {
     handler = e => {
-      dispatch({ id, component: 'button' });
+      dispatch({ label, component: 'button' });
       onClick && onClick(e);
     };
   }
@@ -494,7 +494,7 @@ The dispatch function expects an object with the following properties:
 
 ```ts
 {
- id?: string; // optional
+ label?: string; // optional
  component?: 'button' | 'link' // optional
 }
 ```

@@ -16,20 +16,19 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
+import { EVENTS } from '../../types';
 import TrackingRoot from '../TrackingRoot';
 import TrackingZone from './TrackingZone';
 import TrackingView from '../TrackingView';
 
-import useClickTracker from '../../hooks/useClickTracker';
-
-import ACTIONS from '../../constants/actions';
+import useClickTrigger from '../../hooks/useClickTrigger';
 
 interface DispatchButton {
   testId?: string;
 }
 
 const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
-  const dispatch = useClickTracker();
+  const dispatch = useClickTrigger();
 
   return (
     <button
@@ -58,9 +57,9 @@ describe('Zone', () => {
       app,
       view,
       zone,
-      action: ACTIONS.click,
+      event: EVENTS.click,
       component,
-      id: undefined,
+      label: undefined,
       timestamp: expect.any(Number)
     };
 
@@ -95,9 +94,9 @@ describe('Nested Zones', () => {
       app,
       view,
       zone: zoneB,
-      action: ACTIONS.click,
+      event: EVENTS.click,
       component,
-      id: undefined,
+      label: undefined,
       timestamp: expect.any(Number)
     };
 
@@ -105,9 +104,9 @@ describe('Nested Zones', () => {
       app,
       view,
       zone: zoneA,
-      action: ACTIONS.click,
+      event: EVENTS.click,
       component,
-      id: undefined,
+      label: undefined,
       timestamp: expect.any(Number)
     };
 

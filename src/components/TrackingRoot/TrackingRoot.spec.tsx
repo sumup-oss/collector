@@ -16,14 +16,12 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
+import { EVENTS } from '../../types';
 import TrackingRoot from '../TrackingRoot';
-
-import useClickTracker from '../../hooks/useClickTracker';
-
-import ACTIONS from '../../constants/actions';
+import useClickTrigger from '../../hooks/useClickTrigger';
 
 const DispatchButton = () => {
-  const dispatch = useClickTracker();
+  const dispatch = useClickTrigger();
 
   return (
     <button
@@ -43,18 +41,16 @@ describe('Root', () => {
   it('should attach the app property and use the provided dispatch function', () => {
     const dispatch = jest.fn();
     const app = 'test-app-spec';
-    const view = '';
-    const zone = '';
     const btn = 'dispatch-btn';
     const component = 'button';
 
     const expected = {
       app,
-      view,
-      zone,
-      action: ACTIONS.click,
+      view: undefined,
+      zone: undefined,
+      event: EVENTS.click,
       component,
-      id: undefined,
+      label: undefined,
       timestamp: expect.any(Number)
     };
 

@@ -25,8 +25,6 @@ type Props = ProviderProps & {
 const TrackingRoot = ({ name, onDispatch, children }: Props) => {
   const [state, setState] = React.useState({
     app: name,
-    view: '',
-    zone: '',
     dispatch: onDispatch
   });
   const setView = (view: string) => setState(s => ({ ...s, view }));
