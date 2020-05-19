@@ -15,24 +15,14 @@
 
 import * as React from 'react';
 
-import TrackingContext from '../../components/TrackingContext';
-import { Events, Dispatch } from '../../types';
+const usePrevious = <T>(value: T): T => {
+  const ref = React.useRef(value);
 
-const useBaseTrigger = (event: Events) => {
-  const { dispatch, app, view, zone } = React.useContext(TrackingContext);
+  React.useEffect(() => {
+    ref.current = value;
+  }, [value]);
 
-  return ({ component, label, data }: Dispatch) =>
-    dispatch &&
-    dispatch({
-      app,
-      view,
-      zone,
-      event,
-      component,
-      label,
-      timestamp: Date.now(),
-      data
-    });
+  return ref.current;
 };
 
-export default useBaseTrigger;
+export default usePrevious;

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-export enum EVENTS {
+export enum Events {
   click = 'click',
   view = 'view',
   load = 'load',
@@ -28,7 +28,7 @@ export interface Payload {
   zone?: string;
   component?: string;
   label?: string;
-  event: EVENTS;
+  event: Events;
   timestamp: number;
   data?: {
     [key: string]: any;
@@ -38,7 +38,9 @@ export interface Payload {
 export interface Dispatch {
   component?: string;
   label?: string;
-  data?: object;
+  data?: {
+    [key: string]: any;
+  };
 }
 
 export interface TrackingContextKeys {

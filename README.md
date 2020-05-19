@@ -437,24 +437,36 @@ function App() {
 
 ### Dispatching events
 
-Here are a list of supported events you can dispatch:
+Here are a list of supported events you can dispatch using pre-defined hooks:
 
 - [click](#click)
+- [pageView](#pageView)
 - view (to be implemented)
 - load (to be implemented)
-- pageView (to be implemented)
 - submit (to be implemented)
 - browserBack (to be implemented)
 
 ## Click
 
-The hook called `useClickTrigger` lets you dispatch any kind of click event.
+`useClickTrigger` provides you a dispatch function for any kind of click event.
+
+The dispatch function accepts the following interface:
+
+```jsx
+interface Options {
+  component?: string;
+  label?: string;
+  data?: {
+    [key: string]: any
+  };
+}
+```
 
 ```jsx
 import React from 'react';
 import { useClickTrigger } from '@sumup/collector';
 
-function Button({ onClick, 'tracking-label': trackingId, children }) {
+function Button({ onClick, 'tracking-label': label, children }) {
   const dispatch = useClickTrigger();
   let handler = onClick;
 
@@ -469,33 +481,40 @@ function Button({ onClick, 'tracking-label': trackingId, children }) {
 }
 ```
 
-To ensure consistency, Collector also provides out of the box `components` for you:
+## PageView
+
+`usePageView(options)` lets you dispatch a page view event.
+
+The hooks accepts the following interface:
 
 ```jsx
-import React from 'react';
-import { useClickTrigger } from '@sumup/collector';
-
-function Button({ onClick, 'tracking-label': trackingId, children }) {
-  const dispatch = useClickTrigger();
-  let handler = onClick;
-
-  if (label) {
-    handler = e => {
-      dispatch({ label, component: 'button' });
-      onClick && onClick(e);
-    };
-  }
-
-  return <button onClick={handler}>{children}</button>;
+interface Options {
+  /**
+   * The trigger will automatically dispatch an event whenever the tab becomes
+   * inactive and then active again (via [Visibility change](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event))
+   */
+  visibilityChange: boolean; // false by default
 }
 ```
 
-The dispatch function expects an object with the following properties:
+```jsx
+import React from 'react';
+import { usePageViewTrigger } from '@sumup/collector';
 
-```ts
-{
- label?: string; // optional
- component?: 'button' | 'link' // optional
+interface Props {
+  children: React.ReactNode;
+  location: string;
+}
+
+function App({ location, children }: Props) {
+  const dispatchPageView = usePageViewTrigger({ visibilityChange: true });
+
+  // run the effect everytime location changes
+  useEffect(() => {
+    dispatchPageView();
+  }, [location]);
+
+  return children;
 }
 ```
 

@@ -14,24 +14,17 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 
-import { EVENTS } from '../../types';
 import TrackingRoot from '../../components/TrackingRoot';
 import usePageViewTrigger from './usePageViewTrigger';
+import { Events } from '../../types';
 
 const DispatchButton = () => {
-  const dispatch = usePageViewTrigger();
+  const dispatch = usePageViewTrigger({ visibilityChange: true });
 
   return (
-    <button
-      data-testid="dispatch-btn"
-      onClick={() =>
-        dispatch({
-          component: 'button'
-        })
-      }
-    >
+    <button data-testid="dispatch-btn" onClick={() => dispatch()}>
       Dispatch button
     </button>
   );
@@ -42,15 +35,10 @@ describe('usePageViewTrigger', () => {
     const dispatch = jest.fn();
     const app = 'test-app-hook';
     const btn = 'dispatch-btn';
-    const component = 'button';
 
     const expected = {
       app,
-      view: undefined,
-      zone: undefined,
-      event: EVENTS.pageView,
-      component,
-      id: undefined,
+      event: Events.pageView,
       timestamp: expect.any(Number)
     };
 
@@ -63,5 +51,43 @@ describe('usePageViewTrigger', () => {
     fireEvent.click(getByTestId(btn));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
+  });
+  describe('when the document becomes inactive than active again', () => {
+    it('should provide a dispatch function that contains the pageView event', () => {
+      const dispatch = jest.fn();
+      const app = 'test-app-hook';
+
+      const expected = {
+        app,
+        event: Events.pageView,
+        timestamp: expect.any(Number)
+      };
+
+      render(
+        <TrackingRoot name={app} onDispatch={dispatch}>
+          <DispatchButton />
+        </TrackingRoot>
+      );
+
+      act(() => {
+        Object.defineProperty(document, 'hidden', {
+          configurable: true,
+          value: true
+        });
+
+        document.dispatchEvent(new Event('visibilitychange'));
+      });
+
+      act(() => {
+        Object.defineProperty(document, 'hidden', {
+          configurable: true,
+          value: false
+        });
+
+        document.dispatchEvent(new Event('visibilitychange'));
+      });
+
+      expect(dispatch).toHaveBeenCalledWith(expected);
+    });
   });
 });

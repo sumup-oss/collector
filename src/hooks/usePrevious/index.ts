@@ -13,26 +13,6 @@
  * limitations under the License.
  */
 
-import * as React from 'react';
+import usePrevious from './usePrevious';
 
-import TrackingContext from '../../components/TrackingContext';
-import { Events, Dispatch } from '../../types';
-
-const useBaseTrigger = (event: Events) => {
-  const { dispatch, app, view, zone } = React.useContext(TrackingContext);
-
-  return ({ component, label, data }: Dispatch) =>
-    dispatch &&
-    dispatch({
-      app,
-      view,
-      zone,
-      event,
-      component,
-      label,
-      timestamp: Date.now(),
-      data
-    });
-};
-
-export default useBaseTrigger;
+export default usePrevious;

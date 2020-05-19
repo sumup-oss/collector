@@ -14,8 +14,8 @@
  */
 
 import useBaseTrigger from '../useBaseTrigger';
-import { EVENTS } from '../../types';
+import { Events } from '../../types';
 
-const useClickTrigger = () => useBaseTrigger(EVENTS.click);
+const useClickTrigger = () => useBaseTrigger(Events.click);
 
 export default useClickTrigger;

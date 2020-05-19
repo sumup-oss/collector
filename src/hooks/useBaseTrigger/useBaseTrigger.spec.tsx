@@ -16,12 +16,12 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
-import { EVENTS } from '../../types';
+import { Events } from '../../types';
 import TrackingRoot from '../../components/TrackingRoot';
 import useBaseTrigger from './useBaseTrigger';
 
 const DispatchButton = () => {
-  const dispatch = useBaseTrigger(EVENTS.click);
+  const dispatch = useBaseTrigger(Events.click);
 
   return (
     <button
@@ -48,7 +48,7 @@ describe('useBaseTrigger', () => {
       app,
       view: undefined,
       zone: undefined,
-      event: EVENTS.click,
+      event: Events.click,
       component,
       id: undefined,
       timestamp: expect.any(Number)

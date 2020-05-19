@@ -16,7 +16,7 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
-import { EVENTS } from '../../types';
+import { Events } from '../../types';
 import TrackingRoot from '../TrackingRoot';
 import TrackingView from './TrackingView';
 
@@ -51,7 +51,7 @@ describe('View', () => {
       app,
       view,
       zone: undefined,
-      event: EVENTS.click,
+      event: Events.click,
       component,
       label: undefined,
       timestamp: expect.any(Number)
