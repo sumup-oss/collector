@@ -17,10 +17,7 @@ import * as React from 'react';
 
 import usePrevious from '../usePrevious';
 
-const useVisibilityChange = (): {
-  previousVisibility: boolean;
-  currentVisibility: boolean;
-} => {
+const useVisibilityChange = (callback: (isVisible: boolean) => void): void => {
   const [documentVisibility, setDocumentVisibility] = React.useState(
     !document.hidden
   );
@@ -37,10 +34,9 @@ const useVisibilityChange = (): {
     };
   }, []);
 
-  return {
-    previousVisibility,
-    currentVisibility: documentVisibility
-  };
+  if (previousVisibility !== documentVisibility) {
+    callback(documentVisibility);
+  }
 };
 
 export default useVisibilityChange;

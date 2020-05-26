@@ -25,27 +25,25 @@ describe('useVisibilityChange', () => {
     });
   });
 
-  it('should return an object containing previous and current visibility for the document', async () => {
-    Object.defineProperty(document, 'hidden', {
-      configurable: true,
-      value: false
-    });
-
-    const { result } = renderHook(() => useVisibilityChange());
-
-    expect(result.current.previousVisibility).toBeTruthy();
-    expect(result.current.currentVisibility).toBeTruthy();
-
+  it('should execute the provided callback every time visibility changes with the current visibility as prop', async () => {
     Object.defineProperty(document, 'hidden', {
       configurable: true,
       value: true
+    });
+
+    const visibilityHandler = jest.fn();
+
+    renderHook(() => useVisibilityChange(visibilityHandler));
+
+    Object.defineProperty(document, 'hidden', {
+      configurable: true,
+      value: false
     });
 
     act(() => {
       document.dispatchEvent(new Event('visibilitychange'));
     });
 
-    expect(result.current.previousVisibility).toBeTruthy();
-    expect(result.current.currentVisibility).toBeFalsy();
+    expect(visibilityHandler).toHaveBeenCalledWith(true);
   });
 });

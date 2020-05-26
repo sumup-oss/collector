@@ -17,19 +17,15 @@ import useBaseTrigger from '../useBaseTrigger';
 import useVisibilityChange from '../useVisibilityChange';
 import { Events } from '../../types';
 
-const usePageViewTrigger = (
-  {
-    visibilityChange
-  }: {
-    visibilityChange: boolean;
-  } = {} as any
-) => {
+const usePageViewTrigger = ({
+  visibilityChange
+}: {
+  visibilityChange?: boolean;
+} = {}) => {
   const dispatch = useBaseTrigger(Events.pageView);
-  const { previousVisibility, currentVisibility } = useVisibilityChange();
-
-  if (visibilityChange && !previousVisibility && currentVisibility) {
-    dispatch({});
-  }
+  useVisibilityChange(
+    isVisible => visibilityChange && isVisible && dispatch({})
+  );
 
   return () => dispatch({});
 };
