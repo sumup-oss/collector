@@ -13,13 +13,6 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from '../useBaseTrigger';
-import { Events } from '../../types';
+import usePageActiveTrigger from './usePageActiveTrigger';
 
-const usePageViewTrigger = () => {
-  const dispatch = useBaseTrigger(Events.pageView);
-
-  return () => dispatch({});
-};
-
-export default usePageViewTrigger;
+export default usePageActiveTrigger;

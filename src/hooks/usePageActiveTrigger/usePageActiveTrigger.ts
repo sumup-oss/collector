@@ -14,12 +14,13 @@
  */
 
 import useBaseTrigger from '../useBaseTrigger';
+import useVisibilityChange from '../useVisibilityChange';
 import { Events } from '../../types';
 
-const usePageViewTrigger = () => {
+const usePageActiveTrigger = () => {
   const dispatch = useBaseTrigger(Events.pageView);
 
-  return () => dispatch({});
+  useVisibilityChange(isVisible => isVisible && dispatch({}));
 };
 
-export default usePageViewTrigger;
+export default usePageActiveTrigger;
