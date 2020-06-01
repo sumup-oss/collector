@@ -1,5 +1,5 @@
 /**
- * Copyright 2019, SumUp Ltd.
+ * Copyright 2020, SumUp Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,9 +13,26 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from '../useBaseTrigger';
-import { Events } from '../../types';
+import * as React from 'react';
 
-const useClickTrigger = () => useBaseTrigger(Events.click);
+import TrackingContext from '../../components/TrackingContext';
+import { Events, Dispatch } from '../../types';
 
-export default useClickTrigger;
+const useBaseTrigger = (event: Events) => {
+  const { dispatch, app, view, zone } = React.useContext(TrackingContext);
+
+  return ({ component, label, data }: Dispatch) =>
+    dispatch &&
+    dispatch({
+      app,
+      view,
+      zone,
+      event,
+      component,
+      label,
+      timestamp: Date.now(),
+      data
+    });
+};
+
+export default useBaseTrigger;

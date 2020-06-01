@@ -1,5 +1,5 @@
 /**
- * Copyright 2019, SumUp Ltd.
+ * Copyright 2020, SumUp Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,52 +16,35 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
+import TrackingRoot from '../../components/TrackingRoot';
+import usePageViewTrigger from './usePageViewTrigger';
 import { Events } from '../../types';
-import TrackingRoot from '../TrackingRoot';
-import TrackingView from './TrackingView';
-
-import useClickTrigger from '../../hooks/useClickTrigger';
 
 const DispatchButton = () => {
-  const dispatch = useClickTrigger();
+  const dispatch = usePageViewTrigger();
 
   return (
-    <button
-      data-testid="dispatch-btn"
-      onClick={() =>
-        dispatch({
-          component: 'button'
-        })
-      }
-    >
+    <button data-testid="dispatch-btn" onClick={() => dispatch()}>
       Dispatch button
     </button>
   );
 };
 
-describe('View', () => {
-  it('should attach the view property when dispatching an event', () => {
+describe('usePageViewTrigger', () => {
+  it('should provide a dispatch function that contains the pageView event', () => {
     const dispatch = jest.fn();
-    const app = '';
-    const view = 'test-view-spec';
+    const app = 'test-app-hook';
     const btn = 'dispatch-btn';
-    const component = 'button';
 
     const expected = {
       app,
-      view,
-      zone: undefined,
-      event: Events.click,
-      component,
-      label: undefined,
+      event: Events.pageView,
       timestamp: expect.any(Number)
     };
 
     const { getByTestId } = render(
       <TrackingRoot name={app} onDispatch={dispatch}>
-        <TrackingView name={view}>
-          <DispatchButton />
-        </TrackingView>
+        <DispatchButton />
       </TrackingRoot>
     );
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2019, SumUp Ltd.
+ * Copyright 2020, SumUp Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,6 +16,10 @@
 import useBaseTrigger from '../useBaseTrigger';
 import { Events } from '../../types';
 
-const useClickTrigger = () => useBaseTrigger(Events.click);
+const usePageViewTrigger = () => {
+  const dispatch = useBaseTrigger(Events.pageView);
 
-export default useClickTrigger;
+  return () => dispatch({});
+};
+
+export default usePageViewTrigger;

@@ -437,24 +437,36 @@ function App() {
 
 ### Dispatching events
 
-Here are a list of supported events you can dispatch:
+Here are a list of supported events you can dispatch using pre-defined hooks:
 
 - [click](#click)
+- [pageView](#pageView)
 - view (to be implemented)
 - load (to be implemented)
-- pageView (to be implemented)
 - submit (to be implemented)
 - browserBack (to be implemented)
 
 ## Click
 
-The hook called `useClickTrigger` lets you dispatch any kind of click event.
+`useClickTrigger` provides you a dispatch function for any kind of click event.
+
+The dispatch function accepts the following interface:
+
+```jsx
+interface Options {
+  component?: string;
+  label?: string;
+  data?: {
+    [key: string]: any
+  };
+}
+```
 
 ```jsx
 import React from 'react';
 import { useClickTrigger } from '@sumup/collector';
 
-function Button({ onClick, 'tracking-label': trackingId, children }) {
+function Button({ onClick, 'tracking-label': label, children }) {
   const dispatch = useClickTrigger();
   let handler = onClick;
 
@@ -469,33 +481,78 @@ function Button({ onClick, 'tracking-label': trackingId, children }) {
 }
 ```
 
-To ensure consistency, Collector also provides out of the box `components` for you:
+## PageView
 
-```jsx
-import React from 'react';
-import { useClickTrigger } from '@sumup/collector';
+### What can be considered a page view?
 
-function Button({ onClick, 'tracking-label': trackingId, children }) {
-  const dispatch = useClickTrigger();
-  let handler = onClick;
+- Page load
+- Route changes in SPAs
+- New "context" over the screen being displayed, such as modals.
 
-  if (label) {
-    handler = e => {
-      dispatch({ label, component: 'button' });
-      onClick && onClick(e);
-    };
-  }
-
-  return <button onClick={handler}>{children}</button>;
-}
-```
-
-The dispatch function expects an object with the following properties:
+The `pageView` event will be dispatched with:
 
 ```ts
-{
- label?: string; // optional
- component?: 'button' | 'link' // optional
+interface Event {
+  app: string;
+  view: string;
+  event: 'page-view'; // Provided by available hooks
+  timestamp: number; // Provided by the library when the dispatch function is called
+}
+```
+
+### Where to place the page view hook in your application
+
+In order to have a meaningful page view event, we recommend integrating the available hooks for page view after declaring the [TrackingRoot](#trackingroot) in your application.
+
+You don't need to declare it after the [TrackingView](#trackingview) since any `TrackingView` component will overwrite the context value.
+
+### Available hooks
+
+`usePageViewTrigger()` lets you dispatch a page view event.
+
+```jsx
+import React from 'react';
+import {
+  TrackingRoot,
+  TrackingView,
+  usePageViewTrigger
+} from '@sumup/collector';
+
+interface Props {
+  children: React.ReactNode;
+  location: string;
+}
+
+// This could be a hook instead
+function PageView({ location, children }: Props) {
+  const dispatchPageView = usePageViewTrigger();
+
+  // run the effect everytime location changes
+  useEffect(() => {
+    dispatchPageView();
+  }, [location]);
+
+  return children;
+}
+```
+
+`usePageActiveTrigger` **automatically** dispatchs an event whenever the tab becomes inactive and then active again (via [Visibility change](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event)). This is meant to be used whenever you want to track if people are changing tabs.
+
+Keep in mind only one "pageActive" trigger is required since it's a document event listener.
+
+```jsx
+import React from 'react';
+import { usePageActiveTrigger } from '@sumup/collector';
+
+interface Props {
+  children: React.ReactNode;
+  location: string;
+}
+
+function PageActive({ location, children }: Props) {
+  usePageActiveTrigger();
+
+  return children;
 }
 ```
 

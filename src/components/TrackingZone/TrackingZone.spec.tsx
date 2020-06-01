@@ -16,7 +16,7 @@
 import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
-import { EVENTS } from '../../types';
+import { Events } from '../../types';
 import TrackingRoot from '../TrackingRoot';
 import TrackingZone from './TrackingZone';
 import TrackingView from '../TrackingView';
@@ -57,7 +57,7 @@ describe('Zone', () => {
       app,
       view,
       zone,
-      event: EVENTS.click,
+      event: Events.click,
       component,
       label: undefined,
       timestamp: expect.any(Number)
@@ -94,7 +94,7 @@ describe('Nested Zones', () => {
       app,
       view,
       zone: zoneB,
-      event: EVENTS.click,
+      event: Events.click,
       component,
       label: undefined,
       timestamp: expect.any(Number)
@@ -104,7 +104,7 @@ describe('Nested Zones', () => {
       app,
       view,
       zone: zoneA,
-      event: EVENTS.click,
+      event: Events.click,
       component,
       label: undefined,
       timestamp: expect.any(Number)
