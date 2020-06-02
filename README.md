@@ -340,7 +340,7 @@ interface Event {
   component?: 'button' | 'link'; // Which primitive dispatched the event
   label?: string;
   event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched.
-  data?: {
+  customParameters?: {
     [key: string]: any;
   };
   timestamp: number; // Provided by the library when the dispatch function is called
@@ -456,7 +456,7 @@ The dispatch function accepts the following interface:
 interface Options {
   component?: string;
   label?: string;
-  data?: {
+  customParameters?: {
     [key: string]: any
   };
 }
