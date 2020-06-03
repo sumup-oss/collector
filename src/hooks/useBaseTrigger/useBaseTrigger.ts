@@ -21,7 +21,7 @@ import { Events, Dispatch } from '../../types';
 const useBaseTrigger = (event: Events) => {
   const { dispatch, app, view, zone } = React.useContext(TrackingContext);
 
-  return ({ component, label, data }: Dispatch) =>
+  return ({ component, label, customParameters }: Dispatch) =>
     dispatch &&
     dispatch({
       app,
@@ -31,7 +31,7 @@ const useBaseTrigger = (event: Events) => {
       component,
       label,
       timestamp: Date.now(),
-      data
+      customParameters
     });
 };
 

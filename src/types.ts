@@ -30,7 +30,7 @@ export interface Payload {
   label?: string;
   event: Events;
   timestamp: number;
-  data?: {
+  customParameters?: {
     [key: string]: any;
   };
 }
@@ -38,7 +38,7 @@ export interface Payload {
 export interface Dispatch {
   component?: string;
   label?: string;
-  data?: {
+  customParameters?: {
     [key: string]: any;
   };
 }
