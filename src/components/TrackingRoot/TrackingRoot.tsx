@@ -23,16 +23,13 @@ type Props = ProviderProps & {
 };
 
 const TrackingRoot = ({ name, onDispatch, children }: Props) => {
-  const [state, setState] = React.useState({
+  const [contextValue] = React.useState({
     app: name,
     dispatch: onDispatch
   });
-  const setView = (view: string) => setState(s => ({ ...s, view }));
-
-  const value = { ...state, setView };
 
   return (
-    <TrackingContext.Provider value={value}>
+    <TrackingContext.Provider value={contextValue}>
       {children}
     </TrackingContext.Provider>
   );

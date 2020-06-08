@@ -19,15 +19,21 @@ import { TrackingProviderProps as ProviderProps } from '../../types';
 import TrackingContext from '../TrackingContext';
 
 const TrackingView = ({ name, children }: ProviderProps) => {
-  const { setView } = React.useContext(TrackingContext);
+  const baseContext = React.useContext(TrackingContext);
+  const [contextValue, setContextValue] = React.useState({
+    ...baseContext,
+    view: name
+  });
 
   React.useEffect(() => {
-    setView && setView(name);
-  }, [name]);
+    setContextValue(s => ({ ...s, view: name }));
+  }, [name, setContextValue]);
 
-  // Wrapping with fragment because of a known issue in typescript
-  // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/18051
-  return <>{children}</>;
+  return (
+    <TrackingContext.Provider value={contextValue}>
+      {children}
+    </TrackingContext.Provider>
+  );
 };
 
 export default TrackingView;

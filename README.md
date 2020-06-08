@@ -401,7 +401,7 @@ function App() {
 
 ### TrackingView
 
-The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page". Any `TrackingView` component rendered will override the `view` value.
+The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page".
 
 ```jsx
 import React from 'react';

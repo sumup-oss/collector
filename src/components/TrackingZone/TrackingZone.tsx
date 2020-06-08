@@ -19,11 +19,18 @@ import { TrackingProviderProps as ProviderProps } from '../../types';
 import TrackingContext from '../TrackingContext';
 
 const TrackingZone = ({ name, children }: ProviderProps) => {
-  const context = React.useContext(TrackingContext);
-  const value = { ...context, zone: name };
+  const baseContext = React.useContext(TrackingContext);
+  const [contextValue, setContextValue] = React.useState({
+    ...baseContext,
+    zone: name
+  });
+
+  React.useEffect(() => {
+    setContextValue(s => ({ ...s, zone: name }));
+  }, [name, setContextValue]);
 
   return (
-    <TrackingContext.Provider value={value}>
+    <TrackingContext.Provider value={contextValue}>
       {children}
     </TrackingContext.Provider>
   );
