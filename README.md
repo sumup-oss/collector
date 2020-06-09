@@ -388,20 +388,24 @@ import React from 'react';
 import { TrackingRoot } from '@sumup/collector';
 
 function App() {
+ const handleDispatch = React.useCallback((event) => {
+   // You can define multipler handlers and transform the base event to support different schemas.
+   window.dataLayer.push(event)
+ }, []);
+
  return (
-   <TrackingRoot name="app" onDispatch={e => {
-     // You can define multipler handlers and transform the base event to support different schemas.
-     window.dataLayer.push(e);
-   }}>
+   <TrackingRoot name="app" onDispatch={handleDispatch}>
      ...
    <TrackingRoot>
  );
 }
 ```
 
+To avoid unnecessary renders, we recommend providing `onDispatch` as a memoized function.
+
 ### TrackingView
 
-The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page". Any `TrackingView` component rendered will override the `view` value.
+The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page".
 
 ```jsx
 import React from 'react';
