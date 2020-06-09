@@ -20,14 +20,13 @@ import TrackingContext from '../TrackingContext';
 
 const TrackingZone = ({ name, children }: ProviderProps) => {
   const baseContext = React.useContext(TrackingContext);
-  const [contextValue, setContextValue] = React.useState({
-    ...baseContext,
-    zone: name
-  });
-
-  React.useEffect(() => {
-    setContextValue(s => ({ ...s, zone: name }));
-  }, [name, setContextValue]);
+  const contextValue = React.useMemo(
+    () => ({
+      ...baseContext,
+      zone: name
+    }),
+    [baseContext, name]
+  );
 
   return (
     <TrackingContext.Provider value={contextValue}>
