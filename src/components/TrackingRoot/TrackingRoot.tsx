@@ -23,10 +23,13 @@ type Props = ProviderProps & {
 };
 
 const TrackingRoot = ({ name, onDispatch, children }: Props) => {
-  const [contextValue] = React.useState({
-    app: name,
-    dispatch: onDispatch
-  });
+  const contextValue = React.useMemo(
+    () => ({
+      app: name,
+      dispatch: onDispatch
+    }),
+    [name, onDispatch]
+  );
 
   return (
     <TrackingContext.Provider value={contextValue}>
