@@ -8,3 +8,4 @@ gitignore
 coverage/
 .*.swp
 .*.swo
+*.log
