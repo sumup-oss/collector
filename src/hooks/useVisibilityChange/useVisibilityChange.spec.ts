@@ -25,7 +25,7 @@ describe('useVisibilityChange', () => {
     });
   });
 
-  it('should execute the provided callback every time visibility changes with the current visibility as prop', async () => {
+  it('should execute the provided callback every time visibility changes with the current visibility as prop', () => {
     Object.defineProperty(document, 'hidden', {
       configurable: true,
       value: true

@@ -17,8 +17,9 @@ import * as React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
 import TrackingRoot from '../../components/TrackingRoot';
-import usePageViewTrigger from './usePageViewTrigger';
 import { Events } from '../../types';
+
+import usePageViewTrigger from './usePageViewTrigger';
 
 const DispatchButton = () => {
   const dispatch = usePageViewTrigger();

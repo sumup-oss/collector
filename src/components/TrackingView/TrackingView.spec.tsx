@@ -18,9 +18,9 @@ import { render, fireEvent } from '@testing-library/react';
 
 import { Events } from '../../types';
 import TrackingRoot from '../TrackingRoot';
-import TrackingView from './TrackingView';
-
 import useClickTrigger from '../../hooks/useClickTrigger';
+
+import TrackingView from './TrackingView';
 
 const DispatchButton = () => {
   const dispatch = useClickTrigger();
