@@ -18,10 +18,10 @@ import { render, fireEvent } from '@testing-library/react';
 
 import { Events } from '../../types';
 import TrackingRoot from '../TrackingRoot';
-import TrackingZone from './TrackingZone';
 import TrackingView from '../TrackingView';
-
 import useClickTrigger from '../../hooks/useClickTrigger';
+
+import TrackingZone from './TrackingZone';
 
 interface DispatchButton {
   testId?: string;
