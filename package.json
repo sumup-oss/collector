@@ -20,7 +20,8 @@
     "lint": "foundry run eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "lint:ci": "yarn lint --format junit -o __reports__/eslint-results.xml",
-    "prepublishOnly": "yarn build"
+    "prerelease": "yarn build",
+    "release": "foundry run semantic-release"
   },
   "devDependencies": {
     "@sumup/foundry": "^3.0.0-canary",
