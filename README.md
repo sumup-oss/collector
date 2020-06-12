@@ -11,7 +11,7 @@ Collector is a collection of React components that facilitates user-interaction 
 
 ##### Table of contents
 
-- [TLDR](#tldr)
+- [TL;DR](#tldr)
 - [Motivation](#motivation)
 - [Installing](#installing)
   - [NPM](#npm)
@@ -26,7 +26,7 @@ Collector is a collection of React components that facilitates user-interaction 
   - [Maintainers](#maintainers)
 - [About SumUp](#about-sumup)
 
-## TLDR
+## TL;DR
 
 ```jsx
 import React from 'react';
@@ -42,7 +42,7 @@ function Button({ onClick, 'tracking-label': trackingId, children }) {
   let handler = onClick;
 
   if (trackingId) {
-    handler = e => {
+    handler = (e) => {
       dispatch({ label: trackingId, component: 'button' });
       onClick && onClick(e);
     };
@@ -55,7 +55,7 @@ function App() {
   return (
     <TrackingRoot
       name="my-app"
-      onDispatch={event => {
+      onDispatch={(event) => {
         console.log(event);
       }}
     >
@@ -243,7 +243,7 @@ function Button({ onClick, 'tracking-label': trackingId, children }) {
   let handler = onClick;
 
   if (trackingId) {
-    handler = e => {
+    handler = (e) => {
       dispatch({ label: trackingId, component: 'button' });
       onClick && onClick(e);
     };
@@ -290,7 +290,7 @@ function App() {
   return (
     <TrackingRoot
       name="my-app"
-      onDispatch={event => {
+      onDispatch={(event) => {
         window.dataLayer.push(toAnalyticsEvent(event));
       }}
     >
@@ -475,7 +475,7 @@ function Button({ onClick, 'tracking-label': label, children }) {
   let handler = onClick;
 
   if (label) {
-    handler = e => {
+    handler = (e) => {
       dispatch({ label, component: 'button' });
       onClick && onClick(e);
     };
