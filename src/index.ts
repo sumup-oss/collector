@@ -17,5 +17,10 @@ import TrackingRoot from './components/TrackingRoot';
 import TrackingView from './components/TrackingView';
 import TrackingZone from './components/TrackingZone';
 import useClickTrigger from './hooks/useClickTrigger';
+import * as Types from './types';
 
 export { TrackingRoot, TrackingView, TrackingZone, useClickTrigger };
+
+export type Dispatch = Types.Dispatch;
+export type Events = Types.Events;
+export type Payload = Types.Payload;
