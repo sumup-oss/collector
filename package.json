@@ -1,7 +1,7 @@
 {
   "name": "@sumup/collector",
   "sideEffects": false,
-  "version": "0.0.1",
+  "version": "0.0.0-semantically-released",
   "main": "build/index.js",
   "module": "build/index.es.js",
   "jsnext:main": "build/index.es.js",
@@ -20,7 +20,8 @@
     "lint": "foundry run eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "lint:ci": "yarn lint --format junit -o __reports__/eslint-results.xml",
-    "prepublishOnly": "yarn build"
+    "prerelease": "yarn build",
+    "release": "foundry run semantic-release"
   },
   "devDependencies": {
     "@sumup/foundry": "^3.0.0-canary",
