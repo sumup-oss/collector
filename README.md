@@ -1,32 +1,32 @@
-[![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](LICENSE)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
-
 <div align="center">
 
 # Collector
 
-Collector is a collection of React components that facilitates user-interaction tracking for complex interfaces with a predictable event structure.
+Collector is a library of React components and hooks that facilitates contextual user-interaction tracking for complex interfaces with a predictable event schema.
+
+[![Stars](https://img.shields.io/github/stars/sumup-oss/collector?style=social)](https://github.com/sumup-oss/collector/) [![Version](https://img.shields.io/npm/v/@sumup/collector)](https://www.npmjs.com/package/@sumup/collector) [![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 </div>
 
-##### Table of contents
+## Table of Contents <!-- omit in toc -->
 
-- [TL;DR](#tldr)
-- [Motivation](#motivation)
-- [Installing](#installing)
-  - [NPM](#npm)
-  - [yarn](#yarn)
+- [Concepts](#concepts)
+  - [Problem Statement](#problem-statement)
+  - [Event Schema](#event-schema)
+- [Installation](#installation)
 - [Usage](#usage)
-  - [Schema](#schema)
   - [TrackingRoot](#trackingroot)
   - [TrackingView](#trackingview)
   - [TrackingZone](#trackingzone)
-  - [Dispatching events](#dispatching-events)
-- [Code of conduct (CoC)](#code-of-conduct-coc)
+  - [useClickTrigger](#useclicktrigger)
+  - [usePageViewTrigger](#usepageviewtrigger)
+- [Code of Conduct (CoC)](#code-of-conduct-coc)
   - [Maintainers](#maintainers)
 - [About SumUp](#about-sumup)
 
-## TL;DR
+<details>
+  <summary><strong>TL;DR</strong></summary>
 
 ```jsx
 import React from 'react';
@@ -39,16 +39,16 @@ import {
 
 function Button({ onClick, 'tracking-label': trackingId, children }) {
   const dispatch = useClickTrigger();
-  let handler = onClick;
-
-  if (trackingId) {
-    handler = (e) => {
+  const handleClick = (event) => {
+    if (trackingId) {
       dispatch({ label: trackingId, component: 'button' });
-      onClick && onClick(e);
-    };
-  }
+    }
+    if (onClick) {
+      onClick(event);
+    }
+  };
 
-  return <button onClick={handler}>{children}</button>;
+  return <button onClick={handleClick}>{children}</button>;
 }
 
 function App() {
@@ -73,25 +73,19 @@ function App() {
 }
 ```
 
-## Installing
+</details>
 
-### NPM
+## Concepts
 
-`npm install @sumup/collector`
+### Problem Statement
 
-### yarn
+High-quality event tracking data requires contextual information. When a user interacts with a page, for example by clicking a button, it is useful to know where this button is located in the application hierarchy to put the event in context. The larger a web applications grows, the harder it becomes to provide predictable and traceable tracking structures.
 
-`yarn add @sumup/collector`
+A full example of these challenges is outlined in the [motivation](https://github.com/sumup-oss/collector/blob/master/MOTIVATION.md) document.
 
-## Usage
+Collector was built to track user-interactions with contextual information and high granularity. Using an agnostic event schema you can serve different tracking purposes with it.
 
-- [Schema](#schema)
-- [TrackingRoot](#trackingroot)
-- [TrackingView](#trackingview)
-- [TrackingZone](#trackingzone)
-- [Dispatching events](#dispatching-events)
-
-### Schema
+### Event Schema
 
 Collector's philosophy is to structure your events based on your UI hierarchy. When dispatching events this way, it's easier to reason about the event payload. Based on this image we can start discussing about the event schema:
 
@@ -110,11 +104,11 @@ interface Event {
   zone?: string; // The current "feature"/"organism", such as a login form. Can be overwritten
   component?: 'button' | 'link'; // Which primitive dispatched the event
   label?: string;
-  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched.
+  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This property is added internally based on the kind of event you dispatched.
+  timestamp: number; // This property is added internally when the dispatch function is called
   customParameters?: {
     [key: string]: any;
   };
-  timestamp: number; // Provided by the library when the dispatch function is called
 }
 ```
 
@@ -132,6 +126,7 @@ The directives (`Root = app`, `View = view` and `Zone = zone`) are responsible f
 ```
 
 Would yield the following structure: `{ app: 'my-app', view: 'account', zone: 'change-account-form' }`.
+
 You can also overwrite `Zone` for complex trees:
 
 ```jsx
@@ -149,6 +144,24 @@ You can also overwrite `Zone` for complex trees:
 ```
 
 Would yield the following structure: `{ app: 'my-app', view: 'account', zone: 'validate-account-digit' }`. While it may not sound like much, it is really useful for larger applications.
+
+## Installation
+
+Collector needs to be installed as a dependency via the [Yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com) package managers. The npm CLI ships with [Node](https://nodejs.org/en/). You can read how to install the Yarn CLI in [their documentation](https://yarnpkg.com/en/docs/install).
+
+Depending on your preference, run one of the following.
+
+```sh
+# With Yarn
+$ yarn add @sumup/collector
+
+# With npm
+$ npm install @sumup/collector
+```
+
+Collector requires [`react`](https://www.npmjs.com/package/react) and [`react-dom`](https://www.npmjs.com/package/react-dom) v16.8+ as peer dependencies.
+
+## Usage
 
 ### TrackingRoot
 
@@ -173,6 +186,8 @@ function App() {
 ```
 
 To avoid unnecessary renders, we recommend providing `onDispatch` as a memoized function.
+
+> The above code snippet demonstrates how to push the events to the Google Analytics data layer. This is just an example, Collector is agnostic of the analytics solution you use. In fact it's not even tied to analytics, you could just as well send the data to a structured logging service or anywhere else.
 
 ### TrackingView
 
@@ -210,18 +225,7 @@ function App() {
 }
 ```
 
-### Dispatching events
-
-Here are a list of supported events you can dispatch using pre-defined hooks:
-
-- [click](#click)
-- [pageView](#pageView)
-- view (to be implemented)
-- load (to be implemented)
-- submit (to be implemented)
-- browserBack (to be implemented)
-
-## Click
+### useClickTrigger
 
 `useClickTrigger` provides you a dispatch function for any kind of click event.
 
@@ -256,9 +260,11 @@ function Button({ onClick, 'tracking-label': label, children }) {
 }
 ```
 
-## PageView
+### usePageViewTrigger
 
-### What can be considered a page view?
+`usePageViewTrigger()` lets you dispatch a page view event.
+
+**What can be considered a page view?**
 
 - Page load
 - Route changes in SPAs
@@ -275,15 +281,11 @@ interface Event {
 }
 ```
 
-### Where to place the page view hook in your application
+**Where to place the page view hook in your application**
 
 In order to have a meaningful page view event, we recommend integrating the available hooks for page view after declaring the [TrackingRoot](#trackingroot) in your application.
 
 You don't need to declare it after the [TrackingView](#trackingview) since any `TrackingView` component will overwrite the context value.
-
-### Available hooks
-
-`usePageViewTrigger()` lets you dispatch a page view event.
 
 ```jsx
 import React from 'react';
@@ -311,7 +313,7 @@ function PageView({ location, children }: Props) {
 }
 ```
 
-`usePageActiveTrigger` **automatically** dispatchs an event whenever the tab becomes inactive and then active again (via [Visibility change](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event)). This is meant to be used whenever you want to track if people are changing tabs.
+`usePageActiveTrigger` **automatically** dispatches an event whenever the tab becomes active again after being inactive (via [Visibility change](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event)). This is meant to be used whenever you want to track if people are changing tabs.
 
 Keep in mind only one "pageActive" trigger is required since it's a document event listener.
 
@@ -331,7 +333,7 @@ function PageActive({ location, children }: Props) {
 }
 ```
 
-## Code of conduct (CoC)
+## Code of Conduct (CoC)
 
 We want to foster an inclusive and friendly community around our Open Source efforts. Like all SumUp Open Source projects, this project follows the Contributor Covenant Code of Conduct. Please, [read it and follow it](CODE_OF_CONDUCT.md).
 
@@ -339,6 +341,8 @@ If you feel another member of the community violated our CoC or you are experien
 
 ### Maintainers
 
+- [Fernando Fleury](mailto:fernando.fleury@sumup.com)
+- [Shih Yen Hwang](mailto:shih.yen.hwang@sumup.com)
 - [SumUp Web Chapter](mailto:webchapter@sumup.com)
 
 ## About SumUp

@@ -1,6 +1,6 @@
 # Motivation
 
-The larger web applications grows, the harder it is to provide predictable and traceable tracking structures. Consider our usual analytics event dispatching:
+The larger a web applications grows, the harder it is to provide predictable and traceable tracking structures. Consider our usual analytics event dispatching:
 
 ```jsx
 import React, { useContext } from 'react';
@@ -62,7 +62,7 @@ function App() {
 
 ```
 
-Now, what happens if we need to define the event `category` somewhere else in the tree? For this small example might not sound like much:
+Now, what happens if we need to define the event `category` somewhere else in the tree? For this small example it might not sound like much:
 
 ```jsx
 function AccountBalance({ category }) {
@@ -81,7 +81,7 @@ function AccountBalance({ category }) {
 }
 ```
 
-But over time this can tightly couple our component implementation with the analytics usage. Ideally the `AccountBalance` component shouldn't have to worry about this sort of domain.
+But over time this can tightly couple our component implementation with the tracking usage. Ideally the `AccountBalance` component shouldn't have to worry about this sort of domain.
 
 What about leveraging our already existing `TrackingContext`?
 
@@ -150,7 +150,7 @@ function App() {
 }
 ```
 
-But again, over time this can tightly couple our component implementation with the analytics usage, and the more fields you need to overwrite, the harder it is to reason about the current state of the context, and that's where Collector can help you!
+But again, over time this can tightly couple our component implementation with the event tracking usage, and the more fields you need to overwrite, the harder it is to reason about the current state of the context. That's where Collector can help you!
 
 Collector was built to track user-interactions with high granularity. Using an agnostic event schema you can serve different tracking purposes with it. Consider the same example using Collector:
 
@@ -225,4 +225,4 @@ function App() {
 }
 ```
 
-For more information about the event schema and component structure, please refer to the [Usage](https://github.com/sumup/collector/#usage) section.
+For more information about the event schema and component structure, please refer to the [Event Schema](https://github.com/sumup/collector/#event-schema) and [Usage](https://github.com/sumup/collector/#usage) sections.
