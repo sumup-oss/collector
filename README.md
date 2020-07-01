@@ -14,6 +14,7 @@ Collector is a library of React components and hooks that facilitates contextual
 - [Concepts](#concepts)
   - [Problem Statement](#problem-statement)
   - [Event Schema](#event-schema)
+  - [Page View](#page-view)
 - [Installation](#installation)
 - [Usage](#usage)
   - [TrackingRoot](#trackingroot)
@@ -79,7 +80,7 @@ function App() {
 
 ### Problem Statement
 
-High-quality event tracking data requires contextual information. When a user interacts with a page, for example by clicking a button, it is useful to know where this button is located in the application hierarchy to put the event in context. The larger a web applications grows, the harder it becomes to provide predictable and traceable tracking structures.
+High-quality event tracking data requires contextual information. When a user interacts with your application, for example by clicking a button, it is useful to know where this button is located in the page hierarchy to put the event in context. The larger a web applications grows, the harder it becomes to provide predictable and traceable tracking structures.
 
 A full example of these challenges is outlined in the [motivation](https://github.com/sumup-oss/collector/blob/master/MOTIVATION.md) document.
 
@@ -145,6 +146,20 @@ You can also overwrite `Zone` for complex trees:
 
 Would yield the following structure: `{ app: 'my-app', view: 'account', zone: 'validate-account-digit' }`. While it may not sound like much, it is really useful for larger applications.
 
+### Page View
+
+Traditionally a "page view" is defined as "an instance of a page being loaded (or reloaded) in a browser" (from [Google](https://support.google.com/analytics/answer/6086080?hl=en) for Google Analytics). With single page applications (SPAs) internally navigating from one page to another page will not lead to a full page load, as the content needed to display a new page is dynamically inserted. Thus Collector's definition of a "page view" includes these additional scenarios.
+
+The following rule set describes the most common events that trigger page views:
+
+- The page is initially loaded (or reloaded) in the browser (a full page load takes place) and active (in focus).
+- A significant visual change of the page has taken place, such as:
+  - An overlying modal, visually blocking (and deactivating) the underlying content has appeared (e.g. registration / login modals, cookie notifications, or product information modals).
+  - Inversely, when the pages underlying content becomes visible / active again, after a modal was closed.
+  - The main contents of a page have changed due to filtering or searching on that page (e.g. a product list is filtered or ordered by the lowest price).
+- A new page component has been mounted (after the initial page load), leading to a route change and the route change is completed (i.e. the path of the URL has changed).
+- A browser window / tab displaying a page is activated (in focus) after being inactive (blurred).
+
 ## Installation
 
 Collector needs to be installed as a dependency via the [Yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com) package managers. The npm CLI ships with [Node](https://nodejs.org/en/). You can read how to install the Yarn CLI in [their documentation](https://yarnpkg.com/en/docs/install).
@@ -191,7 +206,7 @@ To avoid unnecessary renders, we recommend providing `onDispatch` as a memoized 
 
 ### TrackingView
 
-The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page".
+The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per ["page view"](#page-view).
 
 ```jsx
 import React from 'react';
@@ -238,6 +253,8 @@ interface Options {
   customParameters?: {
     [key: string]: any
   };
+  event: 'click'; // Added internally by the hook
+  timestamp: number; // Added internally when the dispatch function is called
 }
 ```
 
@@ -262,13 +279,7 @@ function Button({ onClick, 'tracking-label': label, children }) {
 
 ### usePageViewTrigger
 
-`usePageViewTrigger()` lets you dispatch a page view event.
-
-**What can be considered a page view?**
-
-- Page load
-- Route changes in SPAs
-- New "context" over the screen being displayed, such as modals.
+`usePageViewTrigger()` lets you dispatch a [page view](#page-view) event.
 
 The `pageView` event will be dispatched with:
 
@@ -276,12 +287,10 @@ The `pageView` event will be dispatched with:
 interface Event {
   app: string;
   view: string;
-  event: 'page-view'; // Provided by available hooks
-  timestamp: number; // Provided by the library when the dispatch function is called
+  event: 'page-view'; // Added internally by the hook
+  timestamp: number; // Added internally by the library when the dispatch function is called
 }
 ```
-
-**Where to place the page view hook in your application**
 
 In order to have a meaningful page view event, we recommend integrating the available hooks for page view after declaring the [TrackingRoot](#trackingroot) in your application.
 
