@@ -1,32 +1,33 @@
-[![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](LICENSE)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
-
 <div align="center">
 
 # Collector
 
-Collector is a collection of React components that facilitates user-interaction tracking for complex interfaces with a predictable event structure.
+Collector is a library of React components and hooks that facilitates contextual user-interaction tracking for complex interfaces with a predictable event schema.
+
+[![Stars](https://img.shields.io/github/stars/sumup-oss/collector?style=social)](https://github.com/sumup-oss/collector/) [![Version](https://img.shields.io/npm/v/@sumup/collector)](https://www.npmjs.com/package/@sumup/collector) [![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 </div>
 
-##### Table of contents
+## Table of Contents <!-- omit in toc -->
 
-- [TLDR](#tldr)
-- [Motivation](#motivation)
-- [Installing](#installing)
-  - [NPM](#npm)
-  - [yarn](#yarn)
+- [Concepts](#concepts)
+  - [Problem Statement](#problem-statement)
+  - [Event Schema](#event-schema)
+  - [Page View](#page-view)
+- [Installation](#installation)
 - [Usage](#usage)
-  - [Schema](#schema)
   - [TrackingRoot](#trackingroot)
   - [TrackingView](#trackingview)
   - [TrackingElement](#trackingelement)
-  - [Dispatching events](#dispatching-events)
-- [Code of conduct (CoC)](#code-of-conduct-coc)
+  - [useClickTrigger](#useclicktrigger)
+  - [usePageViewTrigger](#usepageviewtrigger)
+- [Code of Conduct (CoC)](#code-of-conduct-coc)
   - [Maintainers](#maintainers)
 - [About SumUp](#about-sumup)
 
-## TLDR
+<details>
+  <summary><strong>TL;DR</strong></summary>
 
 ```jsx
 import React from 'react';
@@ -39,16 +40,16 @@ import {
 
 function Button({ onClick, 'tracking-label': trackingId, children }) {
   const dispatch = useClickTrigger();
-  let handler = onClick;
-
-  if (trackingId) {
-    handler = (e) => {
+  const handleClick = (event) => {
+    if (trackingId) {
       dispatch({ label: trackingId, component: 'button' });
-      onClick && onClick(e);
-    };
-  }
+    }
+    if (onClick) {
+      onClick(event);
+    }
+  };
 
-  return <button onClick={handler}>{children}</button>;
+  return <button onClick={handleClick}>{children}</button>;
 }
 
 function App() {
@@ -73,254 +74,19 @@ function App() {
 }
 ```
 
-## Motivation
+</details>
 
-The larger web applications grows, the harder it is to provide predictable and traceable tracking structures. Consider our usual analytics event dispatching:
+## Concepts
 
-```jsx
-import React, { useContext } from 'react';
-import { TrackingContext } from 'your-tracking';
+### Problem Statement
 
-function Button({ onClick, label, category, value, dispatch, children }) {
-  let handler = onClick;
+High-quality event tracking data requires contextual information. When a user interacts with your application, for example by clicking a button, it is useful to know where this button is located in the page hierarchy to put the event in context. The larger a web applications grows, the harder it becomes to provide predictable and traceable tracking structures.
 
-  if (dispatch) {
-    handler = e => {
-      dispatch({ label, category, value });
-      onClick && onClick(e);
-    };
-  }
+A full example of these challenges is outlined in the [motivation](https://github.com/sumup-oss/collector/blob/master/MOTIVATION.md) document.
 
-  return <button onClick={handler}>{children}</button>;
-}
+Collector was built to track user-interactions with contextual information and high granularity. Using an agnostic event schema you can serve different tracking purposes with it.
 
-function AccountBalance() {
-  return (
-    <Button
-      type="submit"
-      label="show-value"
-      category="balance"
-      dispatch={dispatch}
-    >
-      Click me
-    </Button>
-  );
-}
-
-function AccountPage() {
-  return (
-    ...,
-    <Balance />
-  );
-}
-
-function Balance() {
-  return (
-   ...,
-   <ShowBalance />
-  );
-}
-
-function App() {
-  return (
-    <TrackingContext.Provider
-      value={{
-        dispatch: e => {
-          window.dataLayer.push(e);
-        }
-      }}
-    >
-      <AccountPage />
-    </TrackingContext.Provider>
-  );
-}
-
-```
-
-Now, what happens if we need to define the event `category` somewhere else in the tree? For this small example might not sound like much:
-
-```jsx
-function AccountBalance({ category }) {
-  const { dispatch } = useContext(TrackingContext);
-
-  return (
-    <Button
-      type="submit"
-      label="show-value"
-      category={category}
-      dispatch={dispatch}
-    >
-      Click me
-    </Button>
-  );
-}
-```
-
-But over time this can tightly couple our component implementation with the analytics usage. Ideally the `AccountBalance` component shouldn't have to worry about this sort of domain.
-
-What about leveraging our already existing `TrackingContext`?
-
-```jsx
-function AccountBalance() {
-  const { dispatch, category } = useContext(TrackingContext);
-
-  return (
-    <Button
-      type="submit"
-      label="show-value"
-      category={category}
-      dispatch={dispatch}
-    >
-      Click me
-    </Button>
-  );
-}
-```
-
-But having a context usage also implies that you eventually need to set the value somewhere in the tree:
-
-```jsx
-function AccountBalance() {
-  const { dispatch, category } = useContext(TrackingContext);
-
-  return (
-    <Button
-      type="submit"
-      label="show-value"
-      category={category}
-      dispatch={dispatch}
-    >
-      Click me
-    </Button>
-  );
-}
-
-function Balance() {
-  const { dispatch, setValue } = useContext(TrackingContext);
-  useEffect(() => {
-    setValue({ category: 'account-balance' });
-  }, []);
-
-  return (
-   ...,
-   <ShowBalance />
-  );
-}
-
-function App() {
-  const [trackingData, setTrackingData] = useState({});
-  return (
-    <TrackingContext.Provider
-      value={{
-        ...trackingData,
-        dispatch: e => {
-          window.dataLayer.push(e);
-        },
-        setValue: value => setTrackingData({ ...trackingData, ...value })
-      }}
-    >
-      <AccountPage />
-    </TrackingContext.Provider>
-  );
-}
-```
-
-But again, over time this can tightly couple our component implementation with the analytics usage, and the more fields you need to overwrite, the harder it is to reason about the current state of the context, and that's where Collector can help you!
-
-Collector was built to track user-interactions with high granularity. Using an agnostic event schema you can serve different tracking purposes with it. Consider the same example using Collector:
-
-```jsx
-import React from 'react';
-import {
-  TrackingRoot,
-  TrackingView,
-  TrackingElement,
-  useClickTrigger
-} from '@sumup/collector';
-
-function Button({ onClick, 'tracking-label': trackingId, children }) {
-  const dispatch = useClickTrigger();
-  let handler = onClick;
-
-  if (trackingId) {
-    handler = (e) => {
-      dispatch({ label: trackingId, component: 'button' });
-      onClick && onClick(e);
-    };
-  }
-
-  return <button onClick={handler}>{children}</button>;
-}
-
-function AccountBalance() {
-  return (
-    <Button type="submit" tracking-label="show-balance">
-      Click me
-    </Button>
-  );
-}
-
-function AccountPage() {
-  return (
-    <TrackingView name="account">
-      ...,
-      <Balance />
-    </TrackingView>
-  );
-}
-
-function Balance() {
-  return (
-    <TrackingElement name="balance">
-      ...,
-      <ShowBalance />
-    </TrackingElement>
-  );
-}
-
-function toAnalyticsEvent({ view, elementTree, label, action }) {
-  return {
-    category: `${view}-${elementTree.join('-')}`,
-    label: label,
-    action
-  };
-}
-
-function App() {
-  return (
-    <TrackingRoot
-      name="my-app"
-      onDispatch={(event) => {
-        window.dataLayer.push(toAnalyticsEvent(event));
-      }}
-    >
-      <AccountPage />
-    </TrackingRoot>
-  );
-}
-```
-
-For more information about the event schema and component structure, please refer to the [Usage](#usage) section.
-
-## Installing
-
-### NPM
-
-`npm install @sumup/collector`
-
-### yarn
-
-`yarn add @sumup/collector`
-
-## Usage
-
-- [Schema](#schema)
-- [TrackingRoot](#trackingroot)
-- [TrackingView](#trackingview)
-- [TrackingElement](#trackingelement)
-- [Dispatching events](#dispatching-events)
-
-### Schema
+### Event Schema
 
 Collector's philosophy is to structure your events based on your UI hierarchy. When dispatching events this way, it's easier to reason about the event payload. Based on this image we can start discussing about the event schema:
 
@@ -330,7 +96,7 @@ Collector's philosophy is to structure your events based on your UI hierarchy. W
 
 </div>
 
-In order to support the app/view/element hierarchy, the event schema is defined by the following keys:
+In order to support the app/view/elements hierarchy, the event schema is defined by the following keys:
 
 ```ts
 interface Event {
@@ -339,15 +105,15 @@ interface Event {
   elementTree: string[]; // The current list of rendered <TrackingElement /> down to the dispatched event
   component?: 'button' | 'link'; // Which primitive dispatched the event
   label?: string;
-  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched
+  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This property is added internally based on the kind of event you dispatched.
+  timestamp: number; // This property is added internally when the dispatch function is called
   customParameters?: {
     [key: string]: any;
   };
-  timestamp: number; // Provided by the library when the dispatch function is called
 }
 ```
 
-The directives (`Root = app`, `View = view` and `Element = elementTree`) are responsible for defining their respective attributes for the data structure. Whenever you dispatch an event, these values will be retrieved based on the component hierarchy, for example:
+The directives (`TrackingRoot = app`, `TrackingView = view` and `TrackingElement = elementTree`) are responsible for defining their respective attributes for the data structure. Whenever you dispatch an event, these values will be retrieved based on the component hierarchy, for example:
 
 ```jsx
  <TrackingRoot name="my-app" onDispatch={console.log}>
@@ -355,15 +121,47 @@ The directives (`Root = app`, `View = view` and `Element = elementTree`) are res
     ...
     <TrackingElement name="change-account-form">
      ...
-     <TrackingElement name="validate-account-digit">
-       ...
-     </TrackingElement>
+      <TrackingElement name="validate-bank-account">
+      ...
+      </TrackingElement>
     </TrackingElement>
    </TrackingView>
  <TrackingRoot>
 ```
 
-Would yield the following structure: `{ app: 'my-app', view: 'account', elementTree: ['change-account-form', 'validate-account-digit'] }`. While it may not sound like much, it is really useful for larger applications.
+Would yield the following structure: `{ app: 'my-app', view: 'account', elementTree: ['change-account-form', 'validate-bank-account'] }`.
+
+### Page View
+
+Traditionally a "page view" is defined as "an instance of a page being loaded (or reloaded) in a browser" (from [Google](https://support.google.com/analytics/answer/6086080?hl=en) for Google Analytics). With single page applications (SPAs) internally navigating from one page to another page will not lead to a full page load, as the content needed to display a new page is dynamically inserted. Thus Collector's definition of a "page view" includes these additional scenarios.
+
+The following rule set describes the most common events that trigger page views:
+
+- The page is initially loaded (or reloaded) in the browser (a full page load takes place) and active (in focus).
+- A significant visual change of the page has taken place, such as:
+  - An overlying modal, visually blocking (and deactivating) the underlying content has appeared (e.g. registration / login modals, cookie notifications, or product information modals).
+  - Inversely, when the pages underlying content becomes visible / active again, after a modal was closed.
+  - The main contents of a page have changed due to filtering or searching on that page (e.g. a product list is filtered or ordered by the lowest price).
+- A new page component has been mounted (after the initial page load), leading to a route change and the route change is completed (i.e. the path of the URL has changed).
+- A browser window / tab displaying a page is activated (in focus) after being inactive (blurred).
+
+## Installation
+
+Collector needs to be installed as a dependency via the [Yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com) package managers. The npm CLI ships with [Node](https://nodejs.org/en/). You can read how to install the Yarn CLI in [their documentation](https://yarnpkg.com/en/docs/install).
+
+Depending on your preference, run one of the following.
+
+```sh
+# With Yarn
+$ yarn add @sumup/collector
+
+# With npm
+$ npm install @sumup/collector
+```
+
+Collector requires [`react`](https://www.npmjs.com/package/react) and [`react-dom`](https://www.npmjs.com/package/react-dom) v16.8+ as peer dependencies.
+
+## Usage
 
 ### TrackingRoot
 
@@ -389,9 +187,11 @@ function App() {
 
 To avoid unnecessary renders, we recommend providing `onDispatch` as a memoized function.
 
+> The above code snippet demonstrates how to push the events to the Google Analytics data layer. This is just an example, Collector is agnostic of the analytics solution you use. In fact it's not even tied to analytics, you could just as well send the data to a structured logging service or anywhere else.
+
 ### TrackingView
 
-The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per "page".
+The TrackingView is responsible for storing the `view` value. It is recommended to have one TrackingView per ["page view"](#page-view).
 
 ```jsx
 import React from 'react';
@@ -428,18 +228,7 @@ function App() {
 }
 ```
 
-### Dispatching events
-
-Here are a list of supported events you can dispatch using pre-defined hooks:
-
-- [click](#click)
-- [pageView](#pageView)
-- view (to be implemented)
-- load (to be implemented)
-- submit (to be implemented)
-- browserBack (to be implemented)
-
-## Click
+### useClickTrigger
 
 `useClickTrigger` provides you a dispatch function for any kind of click event.
 
@@ -452,6 +241,8 @@ interface Options {
   customParameters?: {
     [key: string]: any
   };
+  event: 'click'; // Added internally by the hook
+  timestamp: number; // Added internally when the dispatch function is called
 }
 ```
 
@@ -474,13 +265,9 @@ function Button({ onClick, 'tracking-label': label, children }) {
 }
 ```
 
-## PageView
+### usePageViewTrigger
 
-### What can be considered a page view?
-
-- Page load
-- Route changes in SPAs
-- New "context" over the screen being displayed, such as modals.
+`usePageViewTrigger()` lets you dispatch a [page view](#page-view) event.
 
 The `pageView` event will be dispatched with:
 
@@ -488,20 +275,14 @@ The `pageView` event will be dispatched with:
 interface Event {
   app: string;
   view: string;
-  event: 'page-view'; // Provided by available hooks
-  timestamp: number; // Provided by the library when the dispatch function is called
+  event: 'page-view'; // Added internally by the hook
+  timestamp: number; // Added internally by the library when the dispatch function is called
 }
 ```
-
-### Where to place the page view hook in your application
 
 In order to have a meaningful page view event, we recommend integrating the available hooks for page view after declaring the [TrackingRoot](#trackingroot) in your application.
 
 You don't need to declare it after the [TrackingView](#trackingview) since any `TrackingView` component will overwrite the context value.
-
-### Available hooks
-
-`usePageViewTrigger()` lets you dispatch a page view event.
 
 ```jsx
 import React from 'react';
@@ -529,7 +310,7 @@ function PageView({ location, children }: Props) {
 }
 ```
 
-`usePageActiveTrigger` **automatically** dispatchs an event whenever the tab becomes inactive and then active again (via [Visibility change](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event)). This is meant to be used whenever you want to track if people are changing tabs.
+`usePageActiveTrigger` **automatically** dispatches an event whenever the tab becomes active again after being inactive (via [Visibility change](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event)). This is meant to be used whenever you want to track if people are changing tabs.
 
 Keep in mind only one "pageActive" trigger is required since it's a document event listener.
 
@@ -549,7 +330,7 @@ function PageActive({ location, children }: Props) {
 }
 ```
 
-## Code of conduct (CoC)
+## Code of Conduct (CoC)
 
 We want to foster an inclusive and friendly community around our Open Source efforts. Like all SumUp Open Source projects, this project follows the Contributor Covenant Code of Conduct. Please, [read it and follow it](CODE_OF_CONDUCT.md).
 
@@ -557,6 +338,8 @@ If you feel another member of the community violated our CoC or you are experien
 
 ### Maintainers
 
+- [Fernando Fleury](mailto:fernando.fleury@sumup.com)
+- [Shih Yen Hwang](mailto:shih.yen.hwang@sumup.com)
 - [SumUp Web Chapter](mailto:webchapter@sumup.com)
 
 ## About SumUp
