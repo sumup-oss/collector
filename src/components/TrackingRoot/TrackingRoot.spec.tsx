@@ -48,7 +48,7 @@ describe('Root', () => {
     const expected = {
       app,
       view: undefined,
-      zone: undefined,
+      elementTree: [],
       event: Events.click,
       component,
       label: undefined,

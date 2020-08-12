@@ -13,6 +13,6 @@
  * limitations under the License.
  */
 
-import TrackingZone from './TrackingZone';
+import TrackingElement from './TrackingElement';
 
-export default TrackingZone;
+export default TrackingElement;

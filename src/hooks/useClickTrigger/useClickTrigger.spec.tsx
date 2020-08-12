@@ -48,7 +48,7 @@ describe('useClickTrigger', () => {
     const expected = {
       app,
       view: undefined,
-      zone: undefined,
+      elementTree: [],
       event: Events.click,
       component,
       id: undefined,

@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+type ElementTree = string[];
+
 export enum Events {
   click = 'click',
   view = 'view',
@@ -25,13 +27,13 @@ export enum Events {
 export interface Payload {
   app: string | undefined;
   view: string | undefined;
-  zone?: string;
+  elementTree: ElementTree;
   component?: string;
   label?: string;
   event: Events;
   timestamp: number;
   customParameters?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -39,14 +41,14 @@ export interface Dispatch {
   component?: string;
   label?: string;
   customParameters?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
 export interface TrackingContextKeys {
   app?: string;
   view?: string;
-  zone?: string;
+  elementTree: ElementTree;
   dispatch?: (e: Payload) => void;
   setView?: (view: string) => void;
 }

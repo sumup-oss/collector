@@ -26,6 +26,7 @@ const TrackingRoot = ({ name, onDispatch, children }: Props) => {
   const contextValue = React.useMemo(
     () => ({
       app: name,
+      elementTree: [],
       dispatch: onDispatch
     }),
     [name, onDispatch]

@@ -39,7 +39,7 @@ const DispatchButton = () => {
 };
 
 describe('useBaseTrigger', () => {
-  it('should provide a dispatch function that accepts a label and a component, and attaches the app/view/zone/event/timestamp to the dispatched event', () => {
+  it('should provide a dispatch function that accepts a label and a component, and attaches the app/view/elementTree/event/timestamp to the dispatched event', () => {
     const dispatch = jest.fn();
     const app = 'test-app-hook';
     const btn = 'dispatch-btn';
@@ -48,7 +48,7 @@ describe('useBaseTrigger', () => {
     const expected = {
       app,
       view: undefined,
-      zone: undefined,
+      elementTree: [],
       event: Events.click,
       component,
       id: undefined,

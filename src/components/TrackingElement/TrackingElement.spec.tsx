@@ -21,7 +21,7 @@ import TrackingRoot from '../TrackingRoot';
 import TrackingView from '../TrackingView';
 import useClickTrigger from '../../hooks/useClickTrigger';
 
-import TrackingZone from './TrackingZone';
+import TrackingElement from './TrackingElement';
 
 interface DispatchButton {
   testId?: string;
@@ -44,19 +44,19 @@ const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
   );
 };
 
-describe('Zone', () => {
-  it('should attach the zone property when dispatching an event', () => {
+describe('Element', () => {
+  it('should attach the element property when dispatching an event', () => {
     const dispatch = jest.fn();
     const app = '';
     const view = 'test';
-    const zone = 'test-zone-spec';
+    const element = 'test-element-spec';
     const btn = 'dispatch-btn';
     const component = 'button';
 
     const expected = {
       app,
       view,
-      zone,
+      elementTree: [element],
       event: Events.click,
       component,
       label: undefined,
@@ -65,10 +65,10 @@ describe('Zone', () => {
 
     const { getByTestId } = render(
       <TrackingRoot name={app} onDispatch={dispatch}>
-        <TrackingView name="test">
-          <TrackingZone name={zone}>
+        <TrackingView name={view}>
+          <TrackingElement name={element}>
             <DispatchButton />
-          </TrackingZone>
+          </TrackingElement>
         </TrackingView>
       </TrackingRoot>
     );
@@ -79,56 +79,68 @@ describe('Zone', () => {
   });
 });
 
-describe('Nested Zones', () => {
-  it('Button located within nested zones A & B dispatching their immediate parent zone name', () => {
+describe('Nested Elements', () => {
+  it('should properly nest the elements in the elementTree per "branch"', () => {
     const dispatch = jest.fn();
     const app = 'test-app-spec';
     const view = 'test-view-spec';
     const component = 'button';
-    const zoneA = 'test-zone-spec A';
-    const zoneB = 'test-zone-spec B';
+
+    const elementA = 'test-element-spec A';
+    const elementB = 'test-element-spec B';
+    const elementC = 'test-element-spec C';
+
     const btnA = 'dispatch-btn-a';
     const btnB = 'dispatch-btn-b';
+    const btnC = 'dispatch-btn-c';
 
-    const expectedForZoneB = {
+    const expectedForElementA = {
       app,
       view,
-      zone: zoneB,
+      elementTree: [elementA],
       event: Events.click,
       component,
       label: undefined,
       timestamp: expect.any(Number)
     };
 
-    const expectedForZoneA = {
-      app,
-      view,
-      zone: zoneA,
-      event: Events.click,
-      component,
-      label: undefined,
-      timestamp: expect.any(Number)
+    const expectedForElementB = {
+      ...expectedForElementA,
+      elementTree: [elementA, elementB]
+    };
+
+    const expectedForElementC = {
+      ...expectedForElementA,
+      elementTree: [elementA, elementC]
     };
 
     const { getByTestId } = render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <TrackingView name={view}>
-          <TrackingZone name={zoneA}>
+          <TrackingElement name={elementA}>
             <DispatchButton testId={btnA} />
-            <TrackingZone name={zoneB}>
+            <TrackingElement name={elementB}>
               <DispatchButton testId={btnB} />
-            </TrackingZone>
-          </TrackingZone>
+            </TrackingElement>
+
+            <TrackingElement name={elementC}>
+              <DispatchButton testId={btnC} />
+            </TrackingElement>
+          </TrackingElement>
         </TrackingView>
       </TrackingRoot>
     );
 
     fireEvent.click(getByTestId(btnA));
 
-    expect(dispatch).toHaveBeenCalledWith(expectedForZoneA);
+    expect(dispatch).toHaveBeenCalledWith(expectedForElementA);
 
     fireEvent.click(getByTestId(btnB));
 
-    expect(dispatch).toHaveBeenCalledWith(expectedForZoneB);
+    expect(dispatch).toHaveBeenCalledWith(expectedForElementB);
+
+    fireEvent.click(getByTestId(btnC));
+
+    expect(dispatch).toHaveBeenCalledWith(expectedForElementC);
   });
 });

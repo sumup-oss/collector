@@ -19,14 +19,16 @@ import TrackingContext from '../../components/TrackingContext';
 import { Events, Dispatch } from '../../types';
 
 const useBaseTrigger = (event: Events) => {
-  const { dispatch, app, view, zone } = React.useContext(TrackingContext);
+  const { dispatch, app, view, elementTree } = React.useContext(
+    TrackingContext
+  );
 
   return ({ component, label, customParameters }: Dispatch) =>
     dispatch &&
     dispatch({
       app,
       view,
-      zone,
+      elementTree,
       event,
       component,
       label,
