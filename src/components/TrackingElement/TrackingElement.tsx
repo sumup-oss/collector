@@ -18,12 +18,12 @@ import * as React from 'react';
 import { TrackingProviderProps as ProviderProps } from '../../types';
 import TrackingContext from '../TrackingContext';
 
-const TrackingZone = ({ name, children }: ProviderProps) => {
+const TrackingElement = ({ name, children }: ProviderProps) => {
   const baseContext = React.useContext(TrackingContext);
   const contextValue = React.useMemo(
     () => ({
       ...baseContext,
-      zone: name
+      elementTree: [...baseContext.elementTree, name]
     }),
     [baseContext, name]
   );
@@ -35,4 +35,4 @@ const TrackingZone = ({ name, children }: ProviderProps) => {
   );
 };
 
-export default TrackingZone;
+export default TrackingElement;

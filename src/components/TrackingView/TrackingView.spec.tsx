@@ -50,7 +50,7 @@ describe('View', () => {
     const expected = {
       app,
       view,
-      zone: undefined,
+      elementTree: [],
       event: Events.click,
       component,
       label: undefined,

@@ -20,7 +20,7 @@ Collector is a collection of React components that facilitates user-interaction 
   - [Schema](#schema)
   - [TrackingRoot](#trackingroot)
   - [TrackingView](#trackingview)
-  - [TrackingZone](#trackingzone)
+  - [TrackingElement](#trackingelement)
   - [Dispatching events](#dispatching-events)
 - [Code of conduct (CoC)](#code-of-conduct-coc)
   - [Maintainers](#maintainers)
@@ -33,7 +33,7 @@ import React from 'react';
 import {
   TrackingRoot,
   TrackingView,
-  TrackingZone,
+  TrackingElement,
   useClickTrigger
 } from '@sumup/collector';
 
@@ -42,7 +42,7 @@ function Button({ onClick, 'tracking-label': trackingId, children }) {
   let handler = onClick;
 
   if (trackingId) {
-    handler = e => {
+    handler = (e) => {
       dispatch({ label: trackingId, component: 'button' });
       onClick && onClick(e);
     };
@@ -55,18 +55,18 @@ function App() {
   return (
     <TrackingRoot
       name="my-app"
-      onDispatch={event => {
+      onDispatch={(event) => {
         console.log(event);
       }}
     >
       <TrackingView name="page">
-        <TrackingZone name="zone-a">
+        <TrackingElement name="element-a">
           <Button tracking-label="show-content-a">Click me</Button>
-        </TrackingZone>
+        </TrackingElement>
 
-        <TrackingZone name="zone-b">
+        <TrackingElement name="element-b">
           <Button tracking-label="show-content-b">Click me</Button>
-        </TrackingZone>
+        </TrackingElement>
       </TrackingView>
     </TrackingRoot>
   );
@@ -234,7 +234,7 @@ import React from 'react';
 import {
   TrackingRoot,
   TrackingView,
-  TrackingZone,
+  TrackingElement,
   useClickTrigger
 } from '@sumup/collector';
 
@@ -243,7 +243,7 @@ function Button({ onClick, 'tracking-label': trackingId, children }) {
   let handler = onClick;
 
   if (trackingId) {
-    handler = e => {
+    handler = (e) => {
       dispatch({ label: trackingId, component: 'button' });
       onClick && onClick(e);
     };
@@ -271,16 +271,16 @@ function AccountPage() {
 
 function Balance() {
   return (
-    <TrackingZone name="balance">
+    <TrackingElement name="balance">
       ...,
       <ShowBalance />
-    </TrackingZone>
+    </TrackingElement>
   );
 }
 
-function toAnalyticsEvent({ view, zone, label, action }) {
+function toAnalyticsEvent({ view, elementTree, label, action }) {
   return {
-    category: `${view}-${zone}`,
+    category: `${view}-${elementTree.join('-')}`,
     label: label,
     action
   };
@@ -290,7 +290,7 @@ function App() {
   return (
     <TrackingRoot
       name="my-app"
-      onDispatch={event => {
+      onDispatch={(event) => {
         window.dataLayer.push(toAnalyticsEvent(event));
       }}
     >
@@ -317,7 +317,7 @@ For more information about the event schema and component structure, please refe
 - [Schema](#schema)
 - [TrackingRoot](#trackingroot)
 - [TrackingView](#trackingview)
-- [TrackingZone](#trackingzone)
+- [TrackingElement](#trackingelement)
 - [Dispatching events](#dispatching-events)
 
 ### Schema
@@ -330,16 +330,16 @@ Collector's philosophy is to structure your events based on your UI hierarchy. W
 
 </div>
 
-In order to support the app/view/zone hierarchy, the event schema is defined by the following keys:
+In order to support the app/view/element hierarchy, the event schema is defined by the following keys:
 
 ```ts
 interface Event {
   app: string; // The application name
   view: string; // The current "view". Can be overwritten
-  zone?: string; // The current "feature"/"organism", such as a login form. Can be overwritten
+  elementTree: string[]; // The current list of rendered <TrackingElement /> down to the dispatched event
   component?: 'button' | 'link'; // Which primitive dispatched the event
   label?: string;
-  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched.
+  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This action is handled internally based on the kind of event you dispatched
   customParameters?: {
     [key: string]: any;
   };
@@ -347,37 +347,23 @@ interface Event {
 }
 ```
 
-The directives (`Root = app`, `View = view` and `Zone = zone`) are responsible for defining their respective attributes for the data structure. Whenever you dispatch an event, these values will be retrieved based on the component hierarchy, for example:
+The directives (`Root = app`, `View = view` and `Element = elementTree`) are responsible for defining their respective attributes for the data structure. Whenever you dispatch an event, these values will be retrieved based on the component hierarchy, for example:
 
 ```jsx
  <TrackingRoot name="my-app" onDispatch={console.log}>
    <TrackingView name="account">
     ...
-    <TrackingZone name="change-account-form">
+    <TrackingElement name="change-account-form">
      ...
-    </TrackingZone>
-   </TrackingView>
- <TrackingRoot>
-```
-
-Would yield the following structure: `{ app: 'my-app', view: 'account', zone: 'change-account-form' }`.
-You can also overwrite `Zone` for complex trees:
-
-```jsx
- <TrackingRoot name="my-app" onDispatch={console.log}>
-   <TrackingView name="account">
-    ...
-    <TrackingZone name="change-account-form">
-     ...
-     <TrackingZone name="validate-account-digit">
+     <TrackingElement name="validate-account-digit">
        ...
-     </TrackingZone>
-    </TrackingZone>
+     </TrackingElement>
+    </TrackingElement>
    </TrackingView>
  <TrackingRoot>
 ```
 
-Would yield the following structure: `{ app: 'my-app', view: 'account', zone: 'validate-account-digit' }`. While it may not sound like much, it is really useful for larger applications.
+Would yield the following structure: `{ app: 'my-app', view: 'account', elementTree: ['change-account-form', 'validate-account-digit'] }`. While it may not sound like much, it is really useful for larger applications.
 
 ### TrackingRoot
 
@@ -421,20 +407,23 @@ function App() {
 }
 ```
 
-### TrackingZone
+### TrackingElement
 
-The TrackingZone is responsible for storing the `zone` value. Zones are usually a representation of a feature/organism in your application such as a form.
+The TrackingElement is responsible for storing the current `element` value. Elements are usually a representation of a feature/organism in your application such as a form.
 
 ```jsx
 import React from 'react';
-import { TrackingZone } from '@sumup/collector';
+import { TrackingElement } from '@sumup/collector';
 
 function App() {
  return (
    ...
-   <TrackingZone name="change-account-form">
+   <TrackingElement name="change-account-form">
      ...
-   <TrackingZone>
+     <TrackingElement name="forgot-password">
+      ...
+     </TrackingElement>
+   <TrackingElement>
  );
 }
 ```
@@ -475,7 +464,7 @@ function Button({ onClick, 'tracking-label': label, children }) {
   let handler = onClick;
 
   if (label) {
-    handler = e => {
+    handler = (e) => {
       dispatch({ label, component: 'button' });
       onClick && onClick(e);
     };
