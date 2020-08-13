@@ -326,7 +326,7 @@ Collector's philosophy is to structure your events based on your UI hierarchy. W
 
 <div align="center">
 
-![Collector's Concept](![Collector's Concept](https://user-images.githubusercontent.com/2780941/90146083-ee319280-dd80-11ea-88fe-a940dc4b695e.png))
+![Collector's Concept](https://user-images.githubusercontent.com/2780941/90146083-ee319280-dd80-11ea-88fe-a940dc4b695e.png)
 
 </div>
 
