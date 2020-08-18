@@ -91,9 +91,7 @@ Collector was built to track user-interactions with contextual information and h
 Collector's philosophy is to structure your events based on your UI hierarchy. When dispatching events this way, it's easier to reason about the event payload. Based on this image we can start discussing about the event schema:
 
 <div align="center">
-
 ![Collector's Concept](https://user-images.githubusercontent.com/2780941/90146083-ee319280-dd80-11ea-88fe-a940dc4b695e.png)
-
 </div>
 
 In order to support the app/view/elements hierarchy, the event schema is defined by the following keys:
