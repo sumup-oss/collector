@@ -21,6 +21,7 @@ Collector is a library of React components and hooks that facilitates contextual
   - [TrackingView](#trackingview)
   - [TrackingElement](#trackingelement)
   - [useClickTrigger](#useclicktrigger)
+  - [useSubmitTrigger](#usesubmittrigger)
   - [usePageViewTrigger](#usepageviewtrigger)
 - [Code of Conduct (CoC)](#code-of-conduct-coc)
   - [Maintainers](#maintainers)
@@ -260,6 +261,41 @@ function Button({ onClick, 'tracking-label': label, children }) {
   }
 
   return <button onClick={handler}>{children}</button>;
+}
+```
+
+### useSubmitTrigger
+
+`useSubmitTrigger` provides you a dispatch function for any kind of form submission event.
+
+The dispatch function accepts the following interface:
+
+```jsx
+interface Options {
+  component?: string;
+  label?: string;
+  customParameters?: {
+    [key: string]: any
+  };
+  event: 'submit'; // Added internally by the hook
+  timestamp: number; // Added internally when the dispatch function is called
+}
+```
+
+```jsx
+import React from 'react';
+import { useSubmitTrigger } from '@sumup/collector';
+
+function Form({ children }) {
+  const dispatch = useSubmitTrigger();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    dispatch({ component: 'form' });
+  };
+
+  return <form onSubmit={handler}>{children}</form>;
 }
 ```
 
