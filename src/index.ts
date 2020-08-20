@@ -17,9 +17,18 @@ import TrackingRoot from './components/TrackingRoot';
 import TrackingView from './components/TrackingView';
 import TrackingElement from './components/TrackingElement';
 import useClickTrigger from './hooks/useClickTrigger';
+import useSubmitTrigger from './hooks/useSubmitTrigger';
+import usePageViewTrigger from './hooks/usePageViewTrigger';
 import * as Types from './types';
 
-export { TrackingRoot, TrackingView, TrackingElement, useClickTrigger };
+export {
+  TrackingRoot,
+  TrackingView,
+  TrackingElement,
+  useClickTrigger,
+  useSubmitTrigger,
+  usePageViewTrigger
+};
 
 export type Dispatch = Types.Dispatch;
 export type Events = Types.Events;
