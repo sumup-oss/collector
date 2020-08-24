@@ -19,6 +19,7 @@ import TrackingElement from './components/TrackingElement';
 import useClickTrigger from './hooks/useClickTrigger';
 import useSubmitTrigger from './hooks/useSubmitTrigger';
 import usePageViewTrigger from './hooks/usePageViewTrigger';
+import usePageActiveTrigger from './hooks/usePageActiveTrigger';
 import * as Types from './types';
 
 export {
@@ -27,7 +28,8 @@ export {
   TrackingElement,
   useClickTrigger,
   useSubmitTrigger,
-  usePageViewTrigger
+  usePageViewTrigger,
+  usePageActiveTrigger
 };
 
 export type Dispatch = Types.Dispatch;
