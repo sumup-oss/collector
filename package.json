@@ -24,7 +24,7 @@
     "release": "foundry run semantic-release"
   },
   "devDependencies": {
-    "@sumup/foundry": "^3.0.0-canary",
+    "@sumup/foundry": "^3.0.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/react-hooks": "^3.2.1",
