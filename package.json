@@ -51,8 +51,8 @@
     "tti-polyfill": "^0.2.2"
   },
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": ">=16.8.0 <18.0.0",
+    "react-dom": ">=16.8.0 <18.0.0"
   },
   "config": {
     "commitizen": {
