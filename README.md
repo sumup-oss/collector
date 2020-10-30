@@ -83,7 +83,7 @@ function App() {
 
 High-quality event tracking data requires contextual information. When a user interacts with your application, for example by clicking a button, it is useful to know where this button is located in the page hierarchy to put the event in context. The larger a web applications grows, the harder it becomes to provide predictable and traceable tracking structures.
 
-A full example of these challenges is outlined in the [motivation](https://github.com/sumup-oss/collector/blob/master/MOTIVATION.md) document.
+A full example of these challenges is outlined in the [motivation](https://github.com/sumup-oss/collector/blob/main/MOTIVATION.md) document.
 
 Collector was built to track user-interactions with contextual information and high granularity. Using an agnostic event schema you can serve different tracking purposes with it.
 
@@ -380,7 +380,7 @@ If you feel another member of the community violated our CoC or you are experien
 
 ## About SumUp
 
-![SumUp logo](https://raw.githubusercontent.com/sumup-oss/assets/master/sumup-logo.svg?sanitize=true)
+![SumUp logo](https://raw.githubusercontent.com/sumup-oss/assets/main/sumup-logo.svg?sanitize=true)
 
 [SumUp](https://sumup.com) is a mobile-point of sale provider. It is our mission to make easy and fast card payments a reality across the _entire_ world. You can pay with SumUp in more than 30 countries, already. Our engineers work in Berlin, Cologne, Sofia, and Sāo Paulo. They write code in JavaScript, Swift, Ruby, Go, Java, Erlang, Elixir, and more.
 
