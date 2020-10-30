@@ -26,24 +26,19 @@ describe('useVisibilityChange', () => {
   });
 
   it('should execute the provided callback every time visibility changes with the current visibility as prop', () => {
-    Object.defineProperty(document, 'hidden', {
-      configurable: true,
-      value: true
-    });
-
     const visibilityHandler = jest.fn();
 
     renderHook(() => useVisibilityChange(visibilityHandler));
 
     Object.defineProperty(document, 'hidden', {
       configurable: true,
-      value: false
+      value: true
     });
 
     act(() => {
       document.dispatchEvent(new Event('visibilitychange'));
     });
 
-    expect(visibilityHandler).toHaveBeenCalledWith(true);
+    expect(visibilityHandler).toHaveBeenCalledWith(false);
   });
 });
