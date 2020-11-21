@@ -23,18 +23,23 @@ const useBaseTrigger = (event: Events) => {
     TrackingContext
   );
 
-  return ({ component, label, customParameters }: Dispatch) =>
-    dispatch &&
-    dispatch({
-      app,
-      view,
-      elementTree,
-      event,
-      component,
-      label,
-      timestamp: Date.now(),
-      customParameters
-    });
+  const handleTrigger = React.useCallback(
+    ({ component, label, customParameters }: Dispatch) =>
+      dispatch &&
+      dispatch({
+        app,
+        view,
+        elementTree,
+        event,
+        component,
+        label,
+        timestamp: Date.now(),
+        customParameters
+      }),
+    [app, dispatch, elementTree, event, view]
+  );
+
+  return handleTrigger;
 };
 
 export default useBaseTrigger;
