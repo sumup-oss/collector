@@ -15,11 +15,11 @@
 
 import * as React from 'react';
 
-import { TrackingProviderProps as ProviderProps } from '../../types';
+import { TrackingProviderProps as ProviderProps, Payload } from '../../types';
 import TrackingContext from '../TrackingContext';
 
 type Props = ProviderProps & {
-  onDispatch?: () => void;
+  onDispatch?: (payload: Payload) => void;
 };
 
 const TrackingRoot = ({ name, onDispatch, children }: Props) => {
