@@ -26,7 +26,7 @@
   "devDependencies": {
     "@sumup/foundry": "^3.1.3",
     "@testing-library/jest-dom": "^5.11.8",
-    "@testing-library/react": "^11.2.2",
+    "@testing-library/react": "^11.2.3",
     "@testing-library/react-hooks": "^3.7.0",
     "@types/jest": "^26.0.19",
     "@types/react": "^17.0.0",
