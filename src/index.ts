@@ -14,6 +14,7 @@
  */
 
 import TrackingRoot from './components/TrackingRoot';
+import TrackingContext from './components/TrackingContext';
 import TrackingView from './components/TrackingView';
 import TrackingElement from './components/TrackingElement';
 import useClickTrigger from './hooks/useClickTrigger';
@@ -24,6 +25,7 @@ import * as Types from './types';
 
 export {
   TrackingRoot,
+  TrackingContext,
   TrackingView,
   TrackingElement,
   useClickTrigger,
