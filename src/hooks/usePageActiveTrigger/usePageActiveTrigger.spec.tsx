@@ -35,7 +35,7 @@ describe('usePageActiveTrigger', () => {
 
       const expected = {
         app,
-        event: Events.pageView,
+        event: Events.pageReactivated,
         elementTree: [],
         timestamp: expect.any(Number)
       };

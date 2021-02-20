@@ -20,6 +20,7 @@ export enum Events {
   view = 'view',
   load = 'load',
   pageView = 'page-view',
+  pageReactivated = 'page-reactivated',
   submit = 'submit',
   browserBack = 'browser-back'
 }
