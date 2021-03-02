@@ -30,10 +30,9 @@ export {
   useClickTrigger,
   useSubmitTrigger,
   usePageViewTrigger,
-  usePageActiveTrigger
+  usePageActiveTrigger,
+  getFlushedPayload
 };
-
-export const plugin = { getFlushedPayload };
 
 export type Dispatch = Types.Dispatch;
 export type Events = Types.Events;
