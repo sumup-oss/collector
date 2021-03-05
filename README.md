@@ -387,12 +387,12 @@ You can find an example code here.
 
 ```jsx
 import React from 'react';
-import { plugin } from '@sumup/collector';
+import { getFlushedPayload } from '@sumup/collector';
 
 function App() {
  const handleDispatch = React.useCallback((event) => {
    // getFlushedPayload return a new event with flushed payload
-   const flushedEvent = plugin.getFlushedPayload(window.dataLayer, event);
+   const flushedEvent = getFlushedPayload(window.dataLayer, event);
    window.dataLayer.push(flushedEvent)
  }, []);
 
