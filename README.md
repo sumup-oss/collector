@@ -108,7 +108,14 @@ interface Event {
   elementTree: string[]; // The current list of rendered <TrackingElement /> down to the dispatched event
   component?: 'button' | 'link'; // Which primitive dispatched the event
   label?: string;
-  event: 'click' | 'view' | 'load' | 'page-view' | 'submit' | 'browser-back'; // This property is added internally based on the kind of event you dispatched.
+  event:
+    | 'click'
+    | 'view'
+    | 'load'
+    | 'page-view'
+    | 'page-reactivated'
+    | 'submit'
+    | 'browser-back'; // This property is added internally based on the kind of event you dispatched.
   timestamp: number; // This property is added internally when the dispatch function is called
   customParameters?: {
     [key: string]: any;

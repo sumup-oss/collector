@@ -18,7 +18,7 @@ import useVisibilityChange from '../useVisibilityChange';
 import { Events } from '../../types';
 
 const usePageActiveTrigger = (initial?: boolean) => {
-  const dispatch = useBaseTrigger(Events.pageView);
+  const dispatch = useBaseTrigger(Events.pageReactivated);
 
   useVisibilityChange((isVisible) => isVisible && dispatch({}), initial);
 };
