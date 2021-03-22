@@ -13,13 +13,17 @@
  * limitations under the License.
  */
 
+import * as React from 'react';
+
 import useBaseTrigger from '../useBaseTrigger';
 import { Events } from '../../types';
 
 const usePageViewTrigger = () => {
   const dispatch = useBaseTrigger(Events.pageView);
 
-  return () => dispatch({});
+  const handleTrigger = React.useCallback(() => dispatch({}), [dispatch]);
+
+  return handleTrigger;
 };
 
 export default usePageViewTrigger;
