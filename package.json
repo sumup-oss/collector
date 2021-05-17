@@ -27,7 +27,7 @@
     "tti-polyfill": "^0.2.2"
   },
   "devDependencies": {
-    "@sumup/foundry": "^3.4.1",
+    "@sumup/foundry": "^3.5.1",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/react-hooks": "^5.1.2",
