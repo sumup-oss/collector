@@ -195,7 +195,7 @@ function App() {
 
 To avoid unnecessary renders, we recommend providing `onDispatch` as a memoized function.
 
-> The above code snippet demonstrates how to push the events to the Google Analytics data layer. This is just an example, Collector is agnostic of the analytics solution you use. In fact it's not even tied to analytics, you could just as well send the data to a structured logging service or anywhere else.
+> The above code snippet demonstrates how to push events to the [Google Tag Manager dataLayer](https://support.google.com/tagmanager/answer/6164391?hl=en). This is just an example, Collector is agnostic of the tag management or analytics solution you use. In fact it's not even tied to analytics, you could just as well send the data to a structured logging service or anywhere else.
 
 ### TrackingView
 
