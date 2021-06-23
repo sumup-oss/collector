@@ -23,6 +23,8 @@ Collector is a library of React components and hooks that facilitates contextual
   - [useClickTrigger](#useclicktrigger)
   - [useSubmitTrigger](#usesubmittrigger)
   - [usePageViewTrigger](#usepageviewtrigger)
+- [Plugin](#plugin)
+  - [getFlushedPayload](#getflushedpayload)
 - [Code of Conduct (CoC)](#code-of-conduct-coc)
   - [Maintainers](#maintainers)
 - [About SumUp](#about-sumup)
@@ -370,6 +372,35 @@ function PageActive({ location, children }: Props) {
   usePageActiveTrigger();
 
   return children;
+}
+```
+
+## Plugin
+
+Helpers for specific issue.
+
+### getFlushedPayLoad
+
+If you are using Google Tag Manager(GTM) as your dispatch consumer, there is a known behaviour that GTM persists variables until they got flushed. For a non-nested event, a fixed schema with default undefined value flushes unused variable thus they don't pollute states for the next event. For a designed nested variable, eg, `customParameters` in Collector, a nested flush helps to keep states clean. In this plugin, an aggregated custom parameters based on payload history will be set as undefined and flushed by GTM.
+
+You can find an example code here.
+
+```jsx
+import React from 'react';
+import { getFlushedPayload } from '@sumup/collector';
+
+function App() {
+ const handleDispatch = React.useCallback((event) => {
+   // getFlushedPayload return a new event with flushed payload
+   const flushedEvent = getFlushedPayload(window.dataLayer, event);
+   window.dataLayer.push(flushedEvent)
+ }, []);
+
+ return (
+   <TrackingRoot name="app" onDispatch={handleDispatch}>
+     ...
+   <TrackingRoot>
+ );
 }
 ```
 

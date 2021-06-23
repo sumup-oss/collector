@@ -20,6 +20,7 @@ import useClickTrigger from './hooks/useClickTrigger';
 import useSubmitTrigger from './hooks/useSubmitTrigger';
 import usePageViewTrigger from './hooks/usePageViewTrigger';
 import usePageActiveTrigger from './hooks/usePageActiveTrigger';
+import getFlushedPayload from './plugins/getFlushedPayload';
 import * as Types from './types';
 
 export {
@@ -29,7 +30,8 @@ export {
   useClickTrigger,
   useSubmitTrigger,
   usePageViewTrigger,
-  usePageActiveTrigger
+  usePageActiveTrigger,
+  getFlushedPayload
 };
 
 export type Dispatch = Types.Dispatch;
