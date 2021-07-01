@@ -23,7 +23,7 @@ export enum Events {
   pageReactivated = 'page-reactivated',
   submit = 'submit',
   browserBack = 'browser-back',
-  expandSection = 'expand-section'
+  sectionExpanded = 'section-expanded'
 }
 
 export interface Payload {
