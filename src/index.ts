@@ -20,6 +20,7 @@ import useClickTrigger from './hooks/useClickTrigger';
 import useSubmitTrigger from './hooks/useSubmitTrigger';
 import usePageViewTrigger from './hooks/usePageViewTrigger';
 import usePageActiveTrigger from './hooks/usePageActiveTrigger';
+import useSectionExpandedTrigger from './hooks/useSectionExpandedTrigger';
 import getFlushedPayload from './plugins/getFlushedPayload';
 import * as Types from './types';
 
@@ -31,6 +32,7 @@ export {
   useSubmitTrigger,
   usePageViewTrigger,
   usePageActiveTrigger,
+  useSectionExpandedTrigger,
   getFlushedPayload
 };
 

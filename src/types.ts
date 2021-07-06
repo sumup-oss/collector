@@ -22,7 +22,8 @@ export enum Events {
   pageView = 'page-view',
   pageReactivated = 'page-reactivated',
   submit = 'submit',
-  browserBack = 'browser-back'
+  browserBack = 'browser-back',
+  sectionExpanded = 'section-expanded'
 }
 
 export interface Payload {
@@ -45,7 +46,6 @@ export interface Dispatch {
     [key: string]: unknown;
   };
 }
-
 export interface TrackingContextKeys {
   app?: string;
   view?: string;

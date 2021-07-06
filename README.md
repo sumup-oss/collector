@@ -21,6 +21,7 @@ Collector is a library of React components and hooks that facilitates contextual
   - [TrackingView](#trackingview)
   - [TrackingElement](#trackingelement)
   - [useClickTrigger](#useclicktrigger)
+  - [useSectionExpandedTrigger](#usesectionexpandedtrigger)
   - [useSubmitTrigger](#usesubmittrigger)
   - [usePageViewTrigger](#usepageviewtrigger)
 - [Plugin](#plugin)
@@ -115,7 +116,8 @@ interface Event {
     | 'page-view'
     | 'page-reactivated'
     | 'submit'
-    | 'browser-back'; // This property is added internally based on the kind of event you dispatched.
+    | 'browser-back'
+    | 'section-expanded'; // This property is added internally based on the kind of event you dispatched.
   timestamp: number; // This property is added internally when the dispatch function is called
   customParameters?: {
     [key: string]: any;
@@ -272,6 +274,42 @@ function Button({ onClick, 'tracking-label': label, children }) {
   }
 
   return <button onClick={handler}>{children}</button>;
+}
+```
+### useSectionExpandedTrigger
+
+`useSectionExpandedTrigger` provides you a dispatch function for a section expanded event.
+
+The dispatch function accepts the following interface:
+
+```jsx
+interface Options {
+  component?: string;
+  label?: string;
+  customParameters?: {
+    [key: string]: any
+  };
+  event: 'section-expanded'; // Added internally by the hook
+  timestamp: number; // Added internally when the dispatch function is called
+}
+```
+
+```jsx
+import React from 'react';
+import { useSectionExpandedTrigger } from '@sumup/collector';
+
+function Section({ onClick, 'tracking-label': label, children }) {
+  const dispatch = useSectionExpandedTrigger();
+  let expandHandler = onClick;
+
+  if (label) {
+    expandHandler = (e) => {
+      dispatch({ label, component: 'section' });
+      onClick && onClick(e);
+    };
+  }
+
+  return <div onClick={expandHandler}>{children}</div>;
 }
 ```
 
