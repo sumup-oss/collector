@@ -45,18 +45,18 @@ const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
 };
 
 describe('Element', () => {
-  it('should attach the element property when dispatching an event', () => {
+  it('should append the name to the elementTree when dispatching an event', () => {
     const dispatch = jest.fn();
     const app = '';
     const view = 'test';
-    const element = 'test-element-spec';
+    const name = 'test-element';
     const btn = 'dispatch-btn';
     const component = 'button';
 
     const expected = {
       app,
       view,
-      elementTree: [element],
+      elementTree: [name],
       event: Events.click,
       component,
       label: undefined,
@@ -66,7 +66,41 @@ describe('Element', () => {
     const { getByTestId } = render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <TrackingView name={view}>
-          <TrackingElement name={element}>
+          <TrackingElement name={name}>
+            <DispatchButton />
+          </TrackingElement>
+        </TrackingView>
+      </TrackingRoot>
+    );
+
+    fireEvent.click(getByTestId(btn));
+
+    expect(dispatch).toHaveBeenCalledWith(expected);
+  });
+
+  it('should append the name and label to the elementTree when dispatching an event', () => {
+    const dispatch = jest.fn();
+    const app = '';
+    const view = 'test';
+    const name = 'test-element';
+    const label = 'test-label';
+    const btn = 'dispatch-btn';
+    const component = 'button';
+
+    const expected = {
+      app,
+      view,
+      elementTree: ['test-element|test-label'],
+      event: Events.click,
+      component,
+      label: undefined,
+      timestamp: expect.any(Number)
+    };
+
+    const { getByTestId } = render(
+      <TrackingRoot name={app} onDispatch={dispatch}>
+        <TrackingView name={view}>
+          <TrackingElement name={name} label={label}>
             <DispatchButton />
           </TrackingElement>
         </TrackingView>
