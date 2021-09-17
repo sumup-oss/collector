@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import usePageActiveTrigger from './usePageActiveTrigger';
-
-export default usePageActiveTrigger;
+export { usePageActiveTrigger } from './usePageActiveTrigger';

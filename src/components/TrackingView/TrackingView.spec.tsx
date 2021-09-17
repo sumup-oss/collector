@@ -17,10 +17,10 @@ import * as React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 
 import { Events } from '../../types';
-import TrackingRoot from '../TrackingRoot';
-import useClickTrigger from '../../hooks/useClickTrigger';
+import { TrackingRoot } from '../TrackingRoot';
+import { useClickTrigger } from '../../hooks/useClickTrigger';
 
-import TrackingView from './TrackingView';
+import { TrackingView } from './TrackingView';
 
 const DispatchButton = () => {
   const dispatch = useClickTrigger();

@@ -16,13 +16,17 @@
 import * as React from 'react';
 
 import { TrackingProviderProps as ProviderProps, Payload } from '../../types';
-import TrackingContext from '../TrackingContext';
+import { TrackingContext } from '../TrackingContext';
 
 type Props = ProviderProps & {
   onDispatch?: (payload: Payload) => void;
 };
 
-const TrackingRoot = ({ name, onDispatch, children }: Props) => {
+export function TrackingRoot({
+  name,
+  onDispatch,
+  children,
+}: Props): JSX.Element {
   const contextValue = React.useMemo(
     () => ({
       app: name,
@@ -37,6 +41,4 @@ const TrackingRoot = ({ name, onDispatch, children }: Props) => {
       {children}
     </TrackingContext.Provider>
   );
-};
-
-export default TrackingRoot;
+}

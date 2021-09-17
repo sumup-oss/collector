@@ -25,10 +25,10 @@ import { Payload } from '../../types';
  * @param previousPayloads payload history
  * @param payload new payload
  */
-const getFlushedPayload = (
+export function getFlushedPayload(
   previousPayloads: Payload[],
   payload: Payload,
-): Payload => {
+): Payload {
   const aggregatedParameters = previousPayloads.reduce((accu, current) => {
     const customParams = current.customParameters || {};
     return { ...accu, ...customParams };
@@ -58,6 +58,4 @@ const getFlushedPayload = (
   };
 
   return flushedPayload;
-};
-
-export default getFlushedPayload;
+}

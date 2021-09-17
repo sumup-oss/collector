@@ -17,10 +17,8 @@ import * as React from 'react';
 
 import { TrackingContextKeys as ContextKeys } from '../../types';
 
-const TrackingContext = React.createContext<ContextKeys>({
+export const TrackingContext = React.createContext<ContextKeys>({
   app: undefined,
   view: undefined,
   elementTree: [],
 });
-
-export default TrackingContext;

@@ -16,10 +16,10 @@
 import * as React from 'react';
 import { render, act } from '@testing-library/react';
 
-import TrackingRoot from '../../components/TrackingRoot';
+import { TrackingRoot } from '../../components/TrackingRoot';
 import { Events } from '../../types';
 
-import usePageActiveTrigger from './usePageActiveTrigger';
+import { usePageActiveTrigger } from './usePageActiveTrigger';
 
 const Dummy = () => {
   usePageActiveTrigger();

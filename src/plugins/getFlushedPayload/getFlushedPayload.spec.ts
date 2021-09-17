@@ -15,7 +15,7 @@
 
 import { Events, Payload } from '../../types';
 
-import getFlushedPayload from './getFlushedPayload';
+import { getFlushedPayload } from './getFlushedPayload';
 
 const baseEvent1: Payload = {
   app: 'app',

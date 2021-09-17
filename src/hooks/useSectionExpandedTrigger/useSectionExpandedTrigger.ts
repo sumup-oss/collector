@@ -13,9 +13,8 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from '../useBaseTrigger';
-import { Events } from '../../types';
+import { useBaseTrigger } from '../useBaseTrigger';
+import { DispatchFn, Events } from '../../types';
 
-const useSectionExpandedTrigger = () => useBaseTrigger(Events.sectionExpanded);
-
-export default useSectionExpandedTrigger;
+export const useSectionExpandedTrigger = (): DispatchFn =>
+  useBaseTrigger(Events.sectionExpanded);

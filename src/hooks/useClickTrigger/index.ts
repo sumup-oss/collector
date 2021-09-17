@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import useClickTrigger from './useClickTrigger';
-
-export default useClickTrigger;
+export { useClickTrigger } from './useClickTrigger';

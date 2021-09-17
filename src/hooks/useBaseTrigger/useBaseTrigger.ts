@@ -15,10 +15,10 @@
 
 import * as React from 'react';
 
-import TrackingContext from '../../components/TrackingContext';
-import { Events, Dispatch } from '../../types';
+import { TrackingContext } from '../../components/TrackingContext';
+import { Events, Dispatch, DispatchFn } from '../../types';
 
-const useBaseTrigger = (event: Events) => {
+export function useBaseTrigger(event: Events): DispatchFn {
   const { dispatch, app, view, elementTree } =
     React.useContext(TrackingContext);
 
@@ -39,6 +39,4 @@ const useBaseTrigger = (event: Events) => {
   );
 
   return handleTrigger;
-};
-
-export default useBaseTrigger;
+}

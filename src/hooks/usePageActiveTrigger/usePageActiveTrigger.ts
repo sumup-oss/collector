@@ -13,14 +13,12 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from '../useBaseTrigger';
-import useVisibilityChange from '../useVisibilityChange';
+import { useBaseTrigger } from '../useBaseTrigger';
+import { useVisibilityChange } from '../useVisibilityChange';
 import { Events } from '../../types';
 
-const usePageActiveTrigger = (initial?: boolean) => {
+export function usePageActiveTrigger(initial?: boolean): void {
   const dispatch = useBaseTrigger(Events.pageReactivated);
 
   useVisibilityChange((isVisible) => isVisible && dispatch({}), initial);
-};
-
-export default usePageActiveTrigger;
+}

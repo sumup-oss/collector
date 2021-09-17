@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import useVisibilityChange from './useVisibilityChange';
-
-export default useVisibilityChange;
+export { useVisibilityChange } from './useVisibilityChange';

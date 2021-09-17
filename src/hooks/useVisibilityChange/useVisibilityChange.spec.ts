@@ -15,7 +15,7 @@
 
 import { renderHook, act } from '@testing-library/react-hooks';
 
-import useVisibilityChange from './useVisibilityChange';
+import { useVisibilityChange } from './useVisibilityChange';
 
 describe('useVisibilityChange', () => {
   afterAll(() => {

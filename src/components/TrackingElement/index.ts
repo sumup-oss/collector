@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import TrackingElement from './TrackingElement';
-
-export default TrackingElement;
+export { TrackingElement } from './TrackingElement';

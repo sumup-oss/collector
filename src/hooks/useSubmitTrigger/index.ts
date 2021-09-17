@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import useSubmitTrigger from './useSubmitTrigger';
-
-export default useSubmitTrigger;
+export { useSubmitTrigger } from './useSubmitTrigger';

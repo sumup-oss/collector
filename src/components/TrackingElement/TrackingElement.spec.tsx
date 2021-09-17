@@ -17,11 +17,11 @@ import * as React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 
 import { Events } from '../../types';
-import TrackingRoot from '../TrackingRoot';
-import TrackingView from '../TrackingView';
-import useClickTrigger from '../../hooks/useClickTrigger';
+import { TrackingRoot } from '../TrackingRoot';
+import { TrackingView } from '../TrackingView';
+import { useClickTrigger } from '../../hooks/useClickTrigger';
 
-import TrackingElement from './TrackingElement';
+import { TrackingElement } from './TrackingElement';
 
 interface DispatchButtonProps {
   testId?: string;
