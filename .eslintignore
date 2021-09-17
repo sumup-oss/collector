@@ -11,3 +11,4 @@ __reports__/
 /*.config.js
 /*rc.js
 plopfile.js
+tsconfig.json
