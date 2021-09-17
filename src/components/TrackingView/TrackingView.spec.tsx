@@ -14,13 +14,13 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import { Events } from '../../types';
-import TrackingRoot from '../TrackingRoot';
-import useClickTrigger from '../../hooks/useClickTrigger';
+import { TrackingRoot } from '../TrackingRoot';
+import { useClickTrigger } from '../../hooks/useClickTrigger';
 
-import TrackingView from './TrackingView';
+import { TrackingView } from './TrackingView';
 
 const DispatchButton = () => {
   const dispatch = useClickTrigger();
@@ -30,7 +30,7 @@ const DispatchButton = () => {
       data-testid="dispatch-btn"
       onClick={() =>
         dispatch({
-          component: 'button'
+          component: 'button',
         })
       }
     >
@@ -54,18 +54,18 @@ describe('View', () => {
       event: Events.click,
       component,
       label: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <TrackingView name={view}>
           <DispatchButton />
         </TrackingView>
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
-    fireEvent.click(getByTestId(btn));
+    fireEvent.click(screen.getByTestId(btn));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });

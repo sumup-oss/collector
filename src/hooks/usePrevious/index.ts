@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import usePrevious from './usePrevious';
-
-export default usePrevious;
+export { usePrevious } from './usePrevious';

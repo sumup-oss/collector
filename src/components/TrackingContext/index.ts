@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import TrackingContext from './TrackingContext';
-
-export default TrackingContext;
+export { TrackingContext } from './TrackingContext';

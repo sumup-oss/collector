@@ -16,21 +16,25 @@
 import * as React from 'react';
 
 import { TrackingProviderProps as ProviderProps } from '../../types';
-import TrackingContext from '../TrackingContext';
+import { TrackingContext } from '../TrackingContext';
 
 export interface TrackingElementProps extends ProviderProps {
   label?: string;
 }
 
-const TrackingElement = ({ name, label, children }: TrackingElementProps) => {
+export function TrackingElement({
+  name,
+  label,
+  children,
+}: TrackingElementProps): JSX.Element {
   const baseContext = React.useContext(TrackingContext);
   const elementName = label ? `${name}|${label}` : name;
   const contextValue = React.useMemo(
     () => ({
       ...baseContext,
-      elementTree: [...baseContext.elementTree, elementName]
+      elementTree: [...baseContext.elementTree, elementName],
     }),
-    [baseContext, elementName]
+    [baseContext, elementName],
   );
 
   return (
@@ -38,6 +42,4 @@ const TrackingElement = ({ name, label, children }: TrackingElementProps) => {
       {children}
     </TrackingContext.Provider>
   );
-};
-
-export default TrackingElement;
+}

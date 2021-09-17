@@ -15,13 +15,13 @@
 
 import { renderHook, act } from '@testing-library/react-hooks';
 
-import useVisibilityChange from './useVisibilityChange';
+import { useVisibilityChange } from './useVisibilityChange';
 
 describe('useVisibilityChange', () => {
   afterAll(() => {
     Object.defineProperty(document, 'hidden', {
       configurable: true,
-      value: false
+      value: false,
     });
   });
 
@@ -32,7 +32,7 @@ describe('useVisibilityChange', () => {
 
     Object.defineProperty(document, 'hidden', {
       configurable: true,
-      value: true
+      value: true,
     });
 
     act(() => {

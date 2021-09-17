@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import TrackingRoot from './TrackingRoot';
-
-export default TrackingRoot;
+export { TrackingRoot } from './TrackingRoot';

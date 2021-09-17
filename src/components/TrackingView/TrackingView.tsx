@@ -16,16 +16,16 @@
 import * as React from 'react';
 
 import { TrackingProviderProps as ProviderProps } from '../../types';
-import TrackingContext from '../TrackingContext';
+import { TrackingContext } from '../TrackingContext';
 
-const TrackingView = ({ name, children }: ProviderProps) => {
+export function TrackingView({ name, children }: ProviderProps): JSX.Element {
   const baseContext = React.useContext(TrackingContext);
   const contextValue = React.useMemo(
     () => ({
       ...baseContext,
-      view: name
+      view: name,
     }),
-    [baseContext, name]
+    [baseContext, name],
   );
 
   return (
@@ -33,6 +33,4 @@ const TrackingView = ({ name, children }: ProviderProps) => {
       {children}
     </TrackingContext.Provider>
   );
-};
-
-export default TrackingView;
+}

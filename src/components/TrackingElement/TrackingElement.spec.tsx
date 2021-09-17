@@ -14,20 +14,20 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import { Events } from '../../types';
-import TrackingRoot from '../TrackingRoot';
-import TrackingView from '../TrackingView';
-import useClickTrigger from '../../hooks/useClickTrigger';
+import { TrackingRoot } from '../TrackingRoot';
+import { TrackingView } from '../TrackingView';
+import { useClickTrigger } from '../../hooks/useClickTrigger';
 
-import TrackingElement from './TrackingElement';
+import { TrackingElement } from './TrackingElement';
 
-interface DispatchButton {
+interface DispatchButtonProps {
   testId?: string;
 }
 
-const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
+const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButtonProps) => {
   const dispatch = useClickTrigger();
 
   return (
@@ -35,7 +35,7 @@ const DispatchButton = ({ testId = 'dispatch-btn' }: DispatchButton) => {
       data-testid={testId}
       onClick={() =>
         dispatch({
-          component: 'button'
+          component: 'button',
         })
       }
     >
@@ -60,20 +60,20 @@ describe('Element', () => {
       event: Events.click,
       component,
       label: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <TrackingView name={view}>
           <TrackingElement name={name}>
             <DispatchButton />
           </TrackingElement>
         </TrackingView>
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
-    fireEvent.click(getByTestId(btn));
+    fireEvent.click(screen.getByTestId(btn));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });
@@ -94,20 +94,20 @@ describe('Element', () => {
       event: Events.click,
       component,
       label: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <TrackingView name={view}>
           <TrackingElement name={name} label={label}>
             <DispatchButton />
           </TrackingElement>
         </TrackingView>
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
-    fireEvent.click(getByTestId(btn));
+    fireEvent.click(screen.getByTestId(btn));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });
@@ -135,20 +135,20 @@ describe('Nested Elements', () => {
       event: Events.click,
       component,
       label: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
     const expectedForElementB = {
       ...expectedForElementA,
-      elementTree: [elementA, elementB]
+      elementTree: [elementA, elementB],
     };
 
     const expectedForElementC = {
       ...expectedForElementA,
-      elementTree: [elementA, elementC]
+      elementTree: [elementA, elementC],
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <TrackingView name={view}>
           <TrackingElement name={elementA}>
@@ -162,18 +162,18 @@ describe('Nested Elements', () => {
             </TrackingElement>
           </TrackingElement>
         </TrackingView>
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
-    fireEvent.click(getByTestId(btnA));
+    fireEvent.click(screen.getByTestId(btnA));
 
     expect(dispatch).toHaveBeenCalledWith(expectedForElementA);
 
-    fireEvent.click(getByTestId(btnB));
+    fireEvent.click(screen.getByTestId(btnB));
 
     expect(dispatch).toHaveBeenCalledWith(expectedForElementB);
 
-    fireEvent.click(getByTestId(btnC));
+    fireEvent.click(screen.getByTestId(btnC));
 
     expect(dispatch).toHaveBeenCalledWith(expectedForElementC);
   });

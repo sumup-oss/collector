@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from './useBaseTrigger';
-
-export default useBaseTrigger;
+export { useBaseTrigger } from './useBaseTrigger';

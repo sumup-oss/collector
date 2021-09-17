@@ -25,10 +25,10 @@ import { Payload } from '../../types';
  * @param previousPayloads payload history
  * @param payload new payload
  */
-const getFlushedPayload = (
+export function getFlushedPayload(
   previousPayloads: Payload[],
-  payload: Payload
-): Payload => {
+  payload: Payload,
+): Payload {
   const aggregatedParameters = previousPayloads.reduce((accu, current) => {
     const customParams = current.customParameters || {};
     return { ...accu, ...customParams };
@@ -38,26 +38,24 @@ const getFlushedPayload = (
   const resettedParameters = Object.keys(aggregatedParameters).reduce(
     (accu, key) => ({
       ...accu,
-      [key]: undefined
+      [key]: undefined,
     }),
-    {}
+    {},
   );
 
   const flushedPayload = {
     ...payload,
     customParameters: {
       ...resettedParameters,
-      ...payload.customParameters
+      ...payload.customParameters,
     },
     /**
      * GTM property to prevent recursive merge of nested object/array
      * inside customParameters.
      * Ref: https://www.simoahava.com/analytics/two-simple-data-model-tricks/
      * */
-    _clear: true
+    _clear: true,
   };
 
   return flushedPayload;
-};
-
-export default getFlushedPayload;
+}

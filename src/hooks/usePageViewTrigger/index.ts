@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import usePageViewTrigger from './usePageViewTrigger';
-
-export default usePageViewTrigger;
+export { usePageViewTrigger } from './usePageViewTrigger';

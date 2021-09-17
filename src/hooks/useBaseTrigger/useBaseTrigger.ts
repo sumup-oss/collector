@@ -15,13 +15,12 @@
 
 import * as React from 'react';
 
-import TrackingContext from '../../components/TrackingContext';
-import { Events, Dispatch } from '../../types';
+import { TrackingContext } from '../../components/TrackingContext';
+import { Events, Dispatch, DispatchFn } from '../../types';
 
-const useBaseTrigger = (event: Events) => {
-  const { dispatch, app, view, elementTree } = React.useContext(
-    TrackingContext
-  );
+export function useBaseTrigger(event: Events): DispatchFn {
+  const { dispatch, app, view, elementTree } =
+    React.useContext(TrackingContext);
 
   const handleTrigger = React.useCallback(
     ({ component, label, customParameters }: Dispatch) =>
@@ -34,12 +33,10 @@ const useBaseTrigger = (event: Events) => {
         component,
         label,
         timestamp: Date.now(),
-        customParameters
+        customParameters,
       }),
-    [app, dispatch, elementTree, event, view]
+    [app, dispatch, elementTree, event, view],
   );
 
   return handleTrigger;
-};
-
-export default useBaseTrigger;
+}

@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import getFlushedPayload from './getFlushedPayload';
-
-export default getFlushedPayload;
+export { getFlushedPayload } from './getFlushedPayload';

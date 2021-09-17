@@ -15,12 +15,12 @@
 
 import * as React from 'react';
 
-import usePrevious from '../usePrevious';
+import { usePrevious } from '../usePrevious';
 
-const useVisibilityChange = (
+export function useVisibilityChange(
   callback: (isVisible: boolean) => void,
-  initial = true
-): void => {
+  initial = true,
+): void {
   const [documentVisibility, setDocumentVisibility] = React.useState(initial);
   const previousVisibility = usePrevious(documentVisibility);
 
@@ -38,6 +38,4 @@ const useVisibilityChange = (
   if (previousVisibility !== documentVisibility) {
     callback(documentVisibility);
   }
-};
-
-export default useVisibilityChange;
+}

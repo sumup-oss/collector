@@ -14,12 +14,12 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import { Events } from '../../types';
-import TrackingRoot from '../../components/TrackingRoot';
+import { TrackingRoot } from '../../components/TrackingRoot';
 
-import useSubmitTrigger from './useSubmitTrigger';
+import { useSubmitTrigger } from './useSubmitTrigger';
 
 const DispatchForm = () => {
   const dispatch = useSubmitTrigger();
@@ -31,7 +31,7 @@ const DispatchForm = () => {
         e.preventDefault();
 
         dispatch({
-          component: 'form'
+          component: 'form',
         });
       }}
     >
@@ -54,16 +54,16 @@ describe('useSubmitTrigger', () => {
       event: Events.submit,
       component,
       id: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <DispatchForm />
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
-    fireEvent.submit(getByTestId(form));
+    fireEvent.submit(screen.getByTestId(form));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });

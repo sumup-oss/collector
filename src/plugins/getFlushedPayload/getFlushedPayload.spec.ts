@@ -15,7 +15,7 @@
 
 import { Events, Payload } from '../../types';
 
-import getFlushedPayload from './getFlushedPayload';
+import { getFlushedPayload } from './getFlushedPayload';
 
 const baseEvent1: Payload = {
   app: 'app',
@@ -23,7 +23,7 @@ const baseEvent1: Payload = {
   elementTree: [],
   event: Events.click,
   timestamp: 1,
-  customParameters: { A: 'A', B: true, C: [1, 2, 3] }
+  customParameters: { A: 'A', B: true, C: [1, 2, 3] },
 };
 
 const baseEvent2: Payload = {
@@ -32,7 +32,7 @@ const baseEvent2: Payload = {
   elementTree: [],
   event: Events.click,
   timestamp: 2,
-  customParameters: { D: { A: 'D' } }
+  customParameters: { D: { A: 'D' } },
 };
 
 describe('getFlushedPayload', () => {
@@ -40,13 +40,13 @@ describe('getFlushedPayload', () => {
     const previousPayloads = [baseEvent1, baseEvent2];
     const payload = {
       ...baseEvent1,
-      customParameters: { B: false, C: 'string' }
+      customParameters: { B: false, C: 'string' },
     };
     const result = getFlushedPayload(previousPayloads, payload);
     expect(result).toStrictEqual({
       ...baseEvent1,
       _clear: true,
-      customParameters: { A: undefined, B: false, C: 'string', D: undefined }
+      customParameters: { A: undefined, B: false, C: 'string', D: undefined },
     });
   });
 
@@ -57,7 +57,7 @@ describe('getFlushedPayload', () => {
       view: 'view',
       elementTree: [],
       event: Events.click,
-      timestamp: 3
+      timestamp: 3,
     };
     const result = getFlushedPayload(previousPayloads, payload);
     expect(result).toStrictEqual({
@@ -67,8 +67,8 @@ describe('getFlushedPayload', () => {
         A: undefined,
         B: undefined,
         C: undefined,
-        D: undefined
-      }
+        D: undefined,
+      },
     });
   });
 
@@ -78,13 +78,13 @@ describe('getFlushedPayload', () => {
       view: 'view',
       elementTree: [],
       event: Events.click,
-      timestamp: 4
+      timestamp: 4,
     };
     const previousPayloads = [payload];
     const result = getFlushedPayload(previousPayloads, baseEvent1);
     expect(result).toStrictEqual({
       ...baseEvent1,
-      _clear: true
+      _clear: true,
     });
   });
 });

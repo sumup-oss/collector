@@ -13,9 +13,7 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from '../useBaseTrigger';
-import { Events } from '../../types';
+import { useBaseTrigger } from '../useBaseTrigger';
+import { DispatchFn, Events } from '../../types';
 
-const useClickTrigger = () => useBaseTrigger(Events.click);
-
-export default useClickTrigger;
+export const useClickTrigger = (): DispatchFn => useBaseTrigger(Events.click);

@@ -13,9 +13,7 @@
  * limitations under the License.
  */
 
-import useBaseTrigger from '../useBaseTrigger';
-import { Events } from '../../types';
+import { useBaseTrigger } from '../useBaseTrigger';
+import { DispatchFn, Events } from '../../types';
 
-const useSubmitTrigger = () => useBaseTrigger(Events.submit);
-
-export default useSubmitTrigger;
+export const useSubmitTrigger = (): DispatchFn => useBaseTrigger(Events.submit);

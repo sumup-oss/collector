@@ -15,15 +15,13 @@
 
 import * as React from 'react';
 
-import useBaseTrigger from '../useBaseTrigger';
+import { useBaseTrigger } from '../useBaseTrigger';
 import { Events } from '../../types';
 
-const usePageViewTrigger = () => {
+export const usePageViewTrigger = (): (() => void) => {
   const dispatch = useBaseTrigger(Events.pageView);
 
   const handleTrigger = React.useCallback(() => dispatch({}), [dispatch]);
 
   return handleTrigger;
 };
-
-export default usePageViewTrigger;

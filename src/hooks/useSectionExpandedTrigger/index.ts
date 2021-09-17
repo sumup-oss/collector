@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import useSectionExpandedTrigger from './useSectionExpandedTrigger';
-
-export default useSectionExpandedTrigger;
+export { useSectionExpandedTrigger } from './useSectionExpandedTrigger';

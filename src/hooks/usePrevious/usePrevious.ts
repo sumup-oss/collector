@@ -15,7 +15,7 @@
 
 import * as React from 'react';
 
-const usePrevious = <T>(value: T): T => {
+export function usePrevious<T>(value: T): T {
   const ref = React.useRef(value);
 
   React.useEffect(() => {
@@ -23,6 +23,4 @@ const usePrevious = <T>(value: T): T => {
   }, [value]);
 
   return ref.current;
-};
-
-export default usePrevious;
+}

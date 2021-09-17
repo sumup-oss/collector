@@ -16,7 +16,7 @@
 import * as React from 'react';
 import { renderHook, act } from '@testing-library/react-hooks';
 
-import usePrevious from './usePrevious';
+import { usePrevious } from './usePrevious';
 
 describe('usePrevious', () => {
   it('should store the previous value', () => {
@@ -25,7 +25,7 @@ describe('usePrevious', () => {
       return {
         count,
         setCount,
-        prevCount: usePrevious(count)
+        prevCount: usePrevious(count),
       };
     });
 

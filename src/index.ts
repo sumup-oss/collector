@@ -13,28 +13,17 @@
  * limitations under the License.
  */
 
-import TrackingRoot from './components/TrackingRoot';
-import TrackingView from './components/TrackingView';
-import TrackingElement from './components/TrackingElement';
-import useClickTrigger from './hooks/useClickTrigger';
-import useSubmitTrigger from './hooks/useSubmitTrigger';
-import usePageViewTrigger from './hooks/usePageViewTrigger';
-import usePageActiveTrigger from './hooks/usePageActiveTrigger';
-import useSectionExpandedTrigger from './hooks/useSectionExpandedTrigger';
-import getFlushedPayload from './plugins/getFlushedPayload';
 import * as Types from './types';
 
-export {
-  TrackingRoot,
-  TrackingView,
-  TrackingElement,
-  useClickTrigger,
-  useSubmitTrigger,
-  usePageViewTrigger,
-  usePageActiveTrigger,
-  useSectionExpandedTrigger,
-  getFlushedPayload
-};
+export { TrackingRoot } from './components/TrackingRoot';
+export { TrackingView } from './components/TrackingView';
+export { TrackingElement } from './components/TrackingElement';
+export { useClickTrigger } from './hooks/useClickTrigger';
+export { useSubmitTrigger } from './hooks/useSubmitTrigger';
+export { usePageViewTrigger } from './hooks/usePageViewTrigger';
+export { usePageActiveTrigger } from './hooks/usePageActiveTrigger';
+export { useSectionExpandedTrigger } from './hooks/useSectionExpandedTrigger';
+export { getFlushedPayload } from './plugins/getFlushedPayload';
 
 export type Dispatch = Types.Dispatch;
 export type Events = Types.Events;

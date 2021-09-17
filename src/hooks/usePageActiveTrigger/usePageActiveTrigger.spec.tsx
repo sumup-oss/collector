@@ -16,10 +16,10 @@
 import * as React from 'react';
 import { render, act } from '@testing-library/react';
 
-import TrackingRoot from '../../components/TrackingRoot';
+import { TrackingRoot } from '../../components/TrackingRoot';
 import { Events } from '../../types';
 
-import usePageActiveTrigger from './usePageActiveTrigger';
+import { usePageActiveTrigger } from './usePageActiveTrigger';
 
 const Dummy = () => {
   usePageActiveTrigger();
@@ -37,19 +37,19 @@ describe('usePageActiveTrigger', () => {
         app,
         event: Events.pageReactivated,
         elementTree: [],
-        timestamp: expect.any(Number)
+        timestamp: expect.any(Number),
       };
 
       render(
         <TrackingRoot name={app} onDispatch={dispatch}>
           <Dummy />
-        </TrackingRoot>
+        </TrackingRoot>,
       );
 
       act(() => {
         Object.defineProperty(document, 'hidden', {
           configurable: true,
-          value: true
+          value: true,
         });
 
         document.dispatchEvent(new Event('visibilitychange'));
@@ -60,7 +60,7 @@ describe('usePageActiveTrigger', () => {
       act(() => {
         Object.defineProperty(document, 'hidden', {
           configurable: true,
-          value: false
+          value: false,
         });
 
         document.dispatchEvent(new Event('visibilitychange'));

@@ -14,12 +14,12 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import { Events } from '../../types';
-import TrackingRoot from '../../components/TrackingRoot';
+import { TrackingRoot } from '../../components/TrackingRoot';
 
-import useSectionExpandedTrigger from './useSectionExpandedTrigger';
+import { useSectionExpandedTrigger } from './useSectionExpandedTrigger';
 
 const DispatchButton = () => {
   const dispatch = useSectionExpandedTrigger();
@@ -29,7 +29,7 @@ const DispatchButton = () => {
       data-testid="section"
       onClick={() =>
         dispatch({
-          component: 'section'
+          component: 'section',
         })
       }
     >
@@ -52,16 +52,16 @@ describe('useSectionExpandedTrigger', () => {
       event: Events.sectionExpanded,
       component,
       id: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <DispatchButton />
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
-    fireEvent.click(getByTestId(btn));
+    fireEvent.click(screen.getByTestId(btn));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });

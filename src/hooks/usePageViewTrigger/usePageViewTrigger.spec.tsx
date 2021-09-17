@@ -14,12 +14,12 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
-import TrackingRoot from '../../components/TrackingRoot';
+import { TrackingRoot } from '../../components/TrackingRoot';
 import { Events } from '../../types';
 
-import usePageViewTrigger from './usePageViewTrigger';
+import { usePageViewTrigger } from './usePageViewTrigger';
 
 const DispatchButton = () => {
   const dispatch = usePageViewTrigger();
@@ -41,16 +41,16 @@ describe('usePageViewTrigger', () => {
       app,
       event: Events.pageView,
       elementTree: [],
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <DispatchButton />
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
-    fireEvent.click(getByTestId(btn));
+    fireEvent.click(screen.getByTestId(btn));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });

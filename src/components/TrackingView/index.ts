@@ -13,6 +13,4 @@
  * limitations under the License.
  */
 
-import TrackingView from './TrackingView';
-
-export default TrackingView;
+export { TrackingView } from './TrackingView';
