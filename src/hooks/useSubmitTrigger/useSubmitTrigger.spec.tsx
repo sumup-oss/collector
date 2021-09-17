@@ -14,7 +14,7 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import { Events } from '../../types';
 import TrackingRoot from '../../components/TrackingRoot';
@@ -57,13 +57,13 @@ describe('useSubmitTrigger', () => {
       timestamp: expect.any(Number),
     };
 
-    const { getByTestId } = render(
+    render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <DispatchForm />
       </TrackingRoot>,
     );
 
-    fireEvent.submit(getByTestId(form));
+    fireEvent.submit(screen.getByTestId(form));
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });
