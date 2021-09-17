@@ -27,9 +27,9 @@ const TrackingRoot = ({ name, onDispatch, children }: Props) => {
     () => ({
       app: name,
       dispatch: onDispatch,
-      elementTree: []
+      elementTree: [],
     }),
-    [name, onDispatch]
+    [name, onDispatch],
   );
 
   return (

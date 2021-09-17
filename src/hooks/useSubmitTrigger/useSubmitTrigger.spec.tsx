@@ -31,7 +31,7 @@ const DispatchForm = () => {
         e.preventDefault();
 
         dispatch({
-          component: 'form'
+          component: 'form',
         });
       }}
     >
@@ -54,13 +54,13 @@ describe('useSubmitTrigger', () => {
       event: Events.submit,
       component,
       id: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
     const { getByTestId } = render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <DispatchForm />
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
     fireEvent.submit(getByTestId(form));

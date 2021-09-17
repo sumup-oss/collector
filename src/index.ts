@@ -33,7 +33,7 @@ export {
   usePageViewTrigger,
   usePageActiveTrigger,
   useSectionExpandedTrigger,
-  getFlushedPayload
+  getFlushedPayload,
 };
 
 export type Dispatch = Types.Dispatch;

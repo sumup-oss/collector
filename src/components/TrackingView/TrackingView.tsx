@@ -23,9 +23,9 @@ const TrackingView = ({ name, children }: ProviderProps) => {
   const contextValue = React.useMemo(
     () => ({
       ...baseContext,
-      view: name
+      view: name,
     }),
-    [baseContext, name]
+    [baseContext, name],
   );
 
   return (

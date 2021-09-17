@@ -25,7 +25,7 @@ describe('usePrevious', () => {
       return {
         count,
         setCount,
-        prevCount: usePrevious(count)
+        prevCount: usePrevious(count),
       };
     });
 

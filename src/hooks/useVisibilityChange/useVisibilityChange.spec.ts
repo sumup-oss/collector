@@ -21,7 +21,7 @@ describe('useVisibilityChange', () => {
   afterAll(() => {
     Object.defineProperty(document, 'hidden', {
       configurable: true,
-      value: false
+      value: false,
     });
   });
 
@@ -32,7 +32,7 @@ describe('useVisibilityChange', () => {
 
     Object.defineProperty(document, 'hidden', {
       configurable: true,
-      value: true
+      value: true,
     });
 
     act(() => {

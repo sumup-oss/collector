@@ -19,7 +19,7 @@ import usePrevious from '../usePrevious';
 
 const useVisibilityChange = (
   callback: (isVisible: boolean) => void,
-  initial = true
+  initial = true,
 ): void => {
   const [documentVisibility, setDocumentVisibility] = React.useState(initial);
   const previousVisibility = usePrevious(documentVisibility);

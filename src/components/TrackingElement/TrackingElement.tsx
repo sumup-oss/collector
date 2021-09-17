@@ -28,9 +28,9 @@ const TrackingElement = ({ name, label, children }: TrackingElementProps) => {
   const contextValue = React.useMemo(
     () => ({
       ...baseContext,
-      elementTree: [...baseContext.elementTree, elementName]
+      elementTree: [...baseContext.elementTree, elementName],
     }),
-    [baseContext, elementName]
+    [baseContext, elementName],
   );
 
   return (

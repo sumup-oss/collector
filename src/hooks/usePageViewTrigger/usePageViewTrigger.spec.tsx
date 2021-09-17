@@ -41,13 +41,13 @@ describe('usePageViewTrigger', () => {
       app,
       event: Events.pageView,
       elementTree: [],
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
     const { getByTestId } = render(
       <TrackingRoot name={app} onDispatch={dispatch}>
         <DispatchButton />
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
     fireEvent.click(getByTestId(btn));

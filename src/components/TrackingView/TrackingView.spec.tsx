@@ -30,7 +30,7 @@ const DispatchButton = () => {
       data-testid="dispatch-btn"
       onClick={() =>
         dispatch({
-          component: 'button'
+          component: 'button',
         })
       }
     >
@@ -54,7 +54,7 @@ describe('View', () => {
       event: Events.click,
       component,
       label: undefined,
-      timestamp: expect.any(Number)
+      timestamp: expect.any(Number),
     };
 
     const { getByTestId } = render(
@@ -62,7 +62,7 @@ describe('View', () => {
         <TrackingView name={view}>
           <DispatchButton />
         </TrackingView>
-      </TrackingRoot>
+      </TrackingRoot>,
     );
 
     fireEvent.click(getByTestId(btn));
