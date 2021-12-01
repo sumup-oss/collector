@@ -39,7 +39,7 @@ import {
   TrackingRoot,
   TrackingView,
   TrackingElement,
-  useClickTrigger
+  useClickTrigger,
 } from '@sumup/collector';
 
 function Button({ onClick, 'tracking-label': trackingId, children }) {
@@ -251,7 +251,7 @@ interface Options {
   component?: string;
   label?: string;
   customParameters?: {
-    [key: string]: any
+    [key: string]: any,
   };
   event: 'click'; // Added internally by the hook
   timestamp: number; // Added internally when the dispatch function is called
@@ -276,6 +276,7 @@ function Button({ onClick, 'tracking-label': label, children }) {
   return <button onClick={handler}>{children}</button>;
 }
 ```
+
 ### useSectionExpandedTrigger
 
 `useSectionExpandedTrigger` provides you a dispatch function for a section expanded event.
@@ -287,7 +288,7 @@ interface Options {
   component?: string;
   label?: string;
   customParameters?: {
-    [key: string]: any
+    [key: string]: any,
   };
   event: 'section-expanded'; // Added internally by the hook
   timestamp: number; // Added internally when the dispatch function is called
@@ -324,7 +325,7 @@ interface Options {
   component?: string;
   label?: string;
   customParameters?: {
-    [key: string]: any
+    [key: string]: any,
   };
   event: 'submit'; // Added internally by the hook
   timestamp: number; // Added internally when the dispatch function is called
@@ -372,7 +373,7 @@ import React from 'react';
 import {
   TrackingRoot,
   TrackingView,
-  usePageViewTrigger
+  usePageViewTrigger,
 } from '@sumup/collector';
 
 interface Props {
@@ -450,8 +451,8 @@ If you feel another member of the community violated our CoC or you are experien
 
 ### Maintainers
 
-- [Fernando Fleury](mailto:fernando.fleury@sumup.com)
 - [Shih Yen Hwang](mailto:shih.yen.hwang@sumup.com)
+- [Connor Bär](mailto:connor.baer@sumup.com)
 - [SumUp Web Chapter](mailto:webchapter@sumup.com)
 
 ## About SumUp
