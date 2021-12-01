@@ -16,12 +16,19 @@
 import * as React from 'react';
 
 import { useBaseTrigger } from '../useBaseTrigger';
-import { Events } from '../../types';
+import { Events, Dispatch, DispatchFn } from '../../types';
 
-export const usePageViewTrigger = (): (() => void) => {
+export const usePageViewTrigger = (): DispatchFn => {
   const dispatch = useBaseTrigger(Events.pageView);
 
-  const handleTrigger = React.useCallback(() => dispatch({}), [dispatch]);
+  const handleTrigger = React.useCallback(
+    (dispatchParams?: Dispatch) => {
+      const { customParameters } = dispatchParams || {};
+
+      return dispatch({ customParameters });
+    },
+    [dispatch],
+  );
 
   return handleTrigger;
 };

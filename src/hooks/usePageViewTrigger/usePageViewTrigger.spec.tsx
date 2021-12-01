@@ -14,28 +14,28 @@
  */
 
 import * as React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { TrackingRoot } from '../../components/TrackingRoot';
 import { Events } from '../../types';
 
 import { usePageViewTrigger } from './usePageViewTrigger';
 
-const DispatchButton = () => {
-  const dispatch = usePageViewTrigger();
+const DispatchPage = ({ mockDispatchData = {} }) => {
+  const dispatchPageView = usePageViewTrigger();
 
-  return (
-    <button data-testid="dispatch-btn" onClick={() => dispatch()}>
-      Dispatch button
-    </button>
-  );
+  React.useEffect(() => {
+    dispatchPageView(mockDispatchData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <div>Dispatch page</div>;
 };
 
 describe('usePageViewTrigger', () => {
   it('should provide a dispatch function that contains the pageView event', () => {
     const dispatch = jest.fn();
     const app = 'test-app-hook';
-    const btn = 'dispatch-btn';
 
     const expected = {
       app,
@@ -46,11 +46,33 @@ describe('usePageViewTrigger', () => {
 
     render(
       <TrackingRoot name={app} onDispatch={dispatch}>
-        <DispatchButton />
+        <DispatchPage />
       </TrackingRoot>,
     );
 
-    fireEvent.click(screen.getByTestId(btn));
+    expect(dispatch).toHaveBeenCalledWith(expected);
+  });
+
+  it('should provide a dispatch function that contains the pageView event with optional custom parameters', () => {
+    const dispatch = jest.fn();
+    const app = 'test-app-hook';
+    const customParameters = {
+      isConsentUpdate: true,
+    };
+
+    const expected = {
+      app,
+      event: Events.pageView,
+      elementTree: [],
+      timestamp: expect.any(Number),
+      customParameters,
+    };
+
+    render(
+      <TrackingRoot name={app} onDispatch={dispatch}>
+        <DispatchPage mockDispatchData={{ customParameters }} />
+      </TrackingRoot>,
+    );
 
     expect(dispatch).toHaveBeenCalledWith(expected);
   });
