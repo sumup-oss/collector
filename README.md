@@ -358,6 +358,9 @@ The `pageView` event will be dispatched with:
 interface Event {
   app: string;
   view: string;
+  customParameters?: {
+    [key: string]: any
+  };
   event: 'page-view'; // Added internally by the hook
   timestamp: number; // Added internally by the library when the dispatch function is called
 }
