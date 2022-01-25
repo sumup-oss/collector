@@ -456,7 +456,6 @@ If you feel another member of the community violated our CoC or you are experien
 
 - [Shih Yen Hwang](mailto:shih.yen.hwang@sumup.com)
 - [Connor Bär](mailto:connor.baer@sumup.com)
-- [SumUp Web Chapter](mailto:webchapter@sumup.com)
 
 ## About SumUp
 
