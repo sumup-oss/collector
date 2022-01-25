@@ -16,9 +16,9 @@
 import * as React from 'react';
 
 import { useBaseTrigger } from '../useBaseTrigger';
-import { Events, Dispatch, DispatchFn } from '../../types';
+import { Events, Dispatch } from '../../types';
 
-export const usePageViewTrigger = (): DispatchFn => {
+export const usePageViewTrigger = (): ((dispatchParams?: Dispatch) => void) => {
   const dispatch = useBaseTrigger(Events.pageView);
 
   const handleTrigger = React.useCallback(
