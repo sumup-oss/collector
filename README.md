@@ -5,7 +5,7 @@
 Collector is a library of React components and hooks that facilitates contextual user-interaction tracking for complex interfaces with a predictable event schema.
 
 [![Stars](https://img.shields.io/github/stars/sumup-oss/collector?style=social)](https://github.com/sumup-oss/collector/) [![Version](https://img.shields.io/npm/v/@sumup/collector)](https://www.npmjs.com/package/@sumup/collector) [![License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg)](LICENSE)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.1%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 </div>
 
@@ -360,7 +360,7 @@ interface Event {
   app: string;
   view: string;
   customParameters?: {
-    [key: string]: any
+    [key: string]: any;
   };
   event: 'page-view'; // Added internally by the hook
   timestamp: number; // Added internally by the library when the dispatch function is called
