@@ -1,3 +1,7 @@
+⚠️ **This package has been deprecated and will not receive further updates.** ⚠️
+
+We recommend [walker.js](https://github.com/elbwalker/walker.js) as a framework-agnostic alternative.
+
 <div align="center">
 
 # Collector
